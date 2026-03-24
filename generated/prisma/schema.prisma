@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ----------------------------------------------------------------------------- 
+// Enums 
+// ----------------------------------------------------------------------------- 
+
+enum Pricing {
+  FREE
+  FREEMIUM
+  PAID
+}
+
+enum EventType {
+  CONFERENCE
+  WORKSHOP
+  WEBINAR
+  MEETUP
+  HACKATHON
+  AWARD
+}
+
+enum EventStatus {
+  UPCOMING
+  LIVE
+  ARCHIVED
+}
+
+// ----------------------------------------------------------------------------- 
+// Models 
+// ----------------------------------------------------------------------------- 
+
+/// A registered user of the application.  Users can bookmark articles
+/// and resources and optionally select discipline preferences during
+/// onboarding.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+
+  // relations
+  bookmarks   Bookmark[]
+  preferences UserDiscipline[]
+}
+
+/// A subject area used to categorize articles (e.g. "ux", "graphic"). 
+model Discipline {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  // relations
+  articles ArticleDiscipline[]
+  users    UserDiscipline[]
+}
+
+/// Join table between articles and disciplines.  An article may have
+/// multiple disciplines and each discipline may appear on many articles.
+model ArticleDiscipline {
+  id           String     @id @default(cuid())
+  article      Article    @relation(fields: [articleId], references: [id])
+  articleId    String
+  discipline   Discipline @relation(fields: [disciplineId], references: [id])
+  disciplineId String
+
+  @@unique([articleId, disciplineId])
+}
+
+/// The articles aggregated from RSS feeds.  Discipline tags are
+/// maintained via a join table.  Each article optionally belongs to a
+/// Source record rather than storing a bare string.
+model Article {
+  id          String    @id @default(cuid())
+  title       String
+  url         String    @unique
+  excerpt     String?
+  publishedAt DateTime?
+
+  // optional relation to Source; null when source not tracked separately
+  source   Source? @relation(fields: [sourceId], references: [id])
+  sourceId String?
+
+  // relations
+  disciplines ArticleDiscipline[]
+  bookmarks   Bookmark[]
+}
+
+/// A source/origin for articles (e.g. an RSS feed).  Keeping it
+/// normalized allows counting and managing feeds separately from the
+/// Article rows.
+model Source {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  url       String?
+  createdAt DateTime @default(now())
+
+  articles Article[]
+}
+
+/// A content resource curated by the team, classified by category and
+/// pricing tier.
+model Resource {
+  id          String   @id @default(cuid())
+  name        String
+  url         String   @unique
+  description String?
+  pricing     Pricing
+  createdAt   DateTime @default(now())
+  logoLetter  String?
+  logoColor   String?
+
+  // relations
+  category   Category   @relation(fields: [categoryId], references: [id])
+  categoryId String
+  bookmarks  Bookmark[]
+}
+
+/// Enumeration of resource categories (tools, templates, etc.).
+model Category {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  slug  String  @unique
+  icon  String?
+  color String?
+
+  // relations
+  resources Resource[]
+}
+
+/// The bookmark table is polymorphic: a bookmark belongs to a user and
+/// references either an article or a resource.  The combination of
+/// user/article/resource is kept unique to prevent duplicate bookmarks.
+model Bookmark {
+  id         String    @id @default(cuid())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
+  article    Article?  @relation(fields: [articleId], references: [id])
+  articleId  String?
+  resource   Resource? @relation(fields: [resourceId], references: [id])
+  resourceId String?
+  createdAt  DateTime  @default(now())
+
+  @@unique([userId, articleId, resourceId])
+}
+
+/// Tracks which disciplines a user has selected as preferences during
+/// onboarding or in settings.
+model UserDiscipline {
+  id           String     @id @default(cuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  discipline   Discipline @relation(fields: [disciplineId], references: [id])
+  disciplineId String
+
+  @@unique([userId, disciplineId])
+}
+
+/// A model for events.
+model Event {
+  id           String      @id @default(cuid())
+  title        String      @unique
+  description  String
+  type         EventType
+  status       EventStatus @default(UPCOMING)
+  date         String // store as "YYYY-MM-DD" string
+  time         String // e.g. "2:00 PM EST"
+  duration     String // e.g. "1 hour"
+  image        String?
+  isFree       Boolean     @default(true)
+  price        String?
+  attendees    Int         @default(0)
+  maxAttendees Int?
+  tags         String[]
+  url          String?
+  hostName     String
+  hostRole     String
+  hostAvatar   String?
+  createdAt    DateTime    @default(now())
+}
