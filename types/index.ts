@@ -18,20 +18,17 @@ export interface ResourceFilters {
   limit: number;
 }
 
-// Remove duplicate declarations
+// Article as returned by the Prisma API (includes source and disciplines relations)
 export interface Article {
   id: string;
   title: string;
-  excerpt: string;
-  imageUrl?: string; // Optional field
-  articleUrl: string;
-  sourceName: string;
-  sourceFavicon?: string; // Optional field
-  publishedAt: Date;
-  disciplines: Discipline[];
-  summary: any; // This will depend on the format of the summary, could be a simple string or complex type like interface{}
-  qualityScore: number;
-  createdAt: Date;
+  url: string;
+  excerpt: string | null;
+  content: string | null;
+  imageUrl: string | null;
+  publishedAt: Date | string | null;
+  source: { id: string; name: string; url: string | null } | null;
+  disciplines: { discipline: { id: string; name: string; slug: string } }[];
 }
 
 export interface Resource {
@@ -47,6 +44,30 @@ export interface Resource {
   createdAt: Date;
   logoColor: string; // Added logoColor
   logoLetter: string; // Added logoLetter
+}
+
+/** An aggregated opinion post from the DB (Reddit, Substack, Medium, or manual). */
+export interface Opinion {
+  id:             string;
+  title:          string;
+  excerpt:        string;
+  snippet:        string | null;
+  imageUrl:       string | null;
+  publishedAt:    string | Date;
+  readTime:       string | null;
+  tags:           string[];
+  featured:       boolean;
+  sourceUrl:      string;
+  sourcePlatform: string;
+  subreddit:      string | null;
+  upvotes:        number | null;
+  authorName:     string;
+  authorRole:     string | null;
+  authorAvatar:   string | null;
+  authorBio:      string | null;
+  authorHandle:   string | null;
+  createdAt:      string | Date;
+  updatedAt:      string | Date;
 }
 
 export interface ArticleFilters {
@@ -68,13 +89,15 @@ export interface Event {
   duration: string;
   image?: string; // Optional field
   isFree: boolean;
-  price?: number; // Optional field
+  price?: string;
   attendees: number;
-  maxAttendees?: number; // Optional field
+  maxAttendees?: number;
   tags: string[];
   url?: string;
   hostName: string;
   hostRole: string;
-  hostAvatar?: string; // Optional field
+  hostAvatar?: string;
+  registrationDeadline?: string;
+  registrationClosed?: boolean; // computed by API
   createdAt: Date;
 }

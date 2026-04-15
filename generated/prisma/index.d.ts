@@ -74,6 +74,22 @@ export type UserDiscipline = $Result.DefaultSelection<Prisma.$UserDisciplinePayl
  * A model for events.
  */
 export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
+ * Model UserDismissedEvent
+ * Tracks which events a user has dismissed (discarded) from their feed.
+ */
+export type UserDismissedEvent = $Result.DefaultSelection<Prisma.$UserDismissedEventPayload>
+/**
+ * Model Opinion
+ * Aggregated opinion pieces from Reddit and RSS feeds (Substack, Medium, blogs).
+ * sourcePlatform is one of: 'reddit' | 'substack' | 'medium' | 'manual'
+ */
+export type Opinion = $Result.DefaultSelection<Prisma.$OpinionPayload>
+/**
+ * Model EventRsvp
+ * Tracks which events a user has RSVP'd to.
+ */
+export type EventRsvp = $Result.DefaultSelection<Prisma.$EventRsvpPayload>
 
 /**
  * Enums
@@ -339,6 +355,36 @@ export class PrismaClient<
     * ```
     */
   get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userDismissedEvent`: Exposes CRUD operations for the **UserDismissedEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserDismissedEvents
+    * const userDismissedEvents = await prisma.userDismissedEvent.findMany()
+    * ```
+    */
+  get userDismissedEvent(): Prisma.UserDismissedEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.opinion`: Exposes CRUD operations for the **Opinion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Opinions
+    * const opinions = await prisma.opinion.findMany()
+    * ```
+    */
+  get opinion(): Prisma.OpinionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eventRsvp`: Exposes CRUD operations for the **EventRsvp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EventRsvps
+    * const eventRsvps = await prisma.eventRsvp.findMany()
+    * ```
+    */
+  get eventRsvp(): Prisma.EventRsvpDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -789,7 +835,10 @@ export namespace Prisma {
     Category: 'Category',
     Bookmark: 'Bookmark',
     UserDiscipline: 'UserDiscipline',
-    Event: 'Event'
+    Event: 'Event',
+    UserDismissedEvent: 'UserDismissedEvent',
+    Opinion: 'Opinion',
+    EventRsvp: 'EventRsvp'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -808,7 +857,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "discipline" | "articleDiscipline" | "article" | "source" | "resource" | "category" | "bookmark" | "userDiscipline" | "event"
+      modelProps: "user" | "discipline" | "articleDiscipline" | "article" | "source" | "resource" | "category" | "bookmark" | "userDiscipline" | "event" | "userDismissedEvent" | "opinion" | "eventRsvp"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1552,6 +1601,228 @@ export namespace Prisma {
           }
         }
       }
+      UserDismissedEvent: {
+        payload: Prisma.$UserDismissedEventPayload<ExtArgs>
+        fields: Prisma.UserDismissedEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserDismissedEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserDismissedEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          findFirst: {
+            args: Prisma.UserDismissedEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserDismissedEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          findMany: {
+            args: Prisma.UserDismissedEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>[]
+          }
+          create: {
+            args: Prisma.UserDismissedEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          createMany: {
+            args: Prisma.UserDismissedEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserDismissedEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>[]
+          }
+          delete: {
+            args: Prisma.UserDismissedEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          update: {
+            args: Prisma.UserDismissedEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserDismissedEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserDismissedEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserDismissedEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserDismissedEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserDismissedEventPayload>
+          }
+          aggregate: {
+            args: Prisma.UserDismissedEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserDismissedEvent>
+          }
+          groupBy: {
+            args: Prisma.UserDismissedEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserDismissedEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserDismissedEventCountArgs<ExtArgs>
+            result: $Utils.Optional<UserDismissedEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      Opinion: {
+        payload: Prisma.$OpinionPayload<ExtArgs>
+        fields: Prisma.OpinionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OpinionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OpinionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          findFirst: {
+            args: Prisma.OpinionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OpinionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          findMany: {
+            args: Prisma.OpinionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>[]
+          }
+          create: {
+            args: Prisma.OpinionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          createMany: {
+            args: Prisma.OpinionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OpinionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>[]
+          }
+          delete: {
+            args: Prisma.OpinionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          update: {
+            args: Prisma.OpinionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          deleteMany: {
+            args: Prisma.OpinionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OpinionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OpinionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>[]
+          }
+          upsert: {
+            args: Prisma.OpinionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OpinionPayload>
+          }
+          aggregate: {
+            args: Prisma.OpinionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOpinion>
+          }
+          groupBy: {
+            args: Prisma.OpinionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OpinionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OpinionCountArgs<ExtArgs>
+            result: $Utils.Optional<OpinionCountAggregateOutputType> | number
+          }
+        }
+      }
+      EventRsvp: {
+        payload: Prisma.$EventRsvpPayload<ExtArgs>
+        fields: Prisma.EventRsvpFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EventRsvpFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EventRsvpFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          findFirst: {
+            args: Prisma.EventRsvpFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EventRsvpFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          findMany: {
+            args: Prisma.EventRsvpFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>[]
+          }
+          create: {
+            args: Prisma.EventRsvpCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          createMany: {
+            args: Prisma.EventRsvpCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EventRsvpCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>[]
+          }
+          delete: {
+            args: Prisma.EventRsvpDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          update: {
+            args: Prisma.EventRsvpUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          deleteMany: {
+            args: Prisma.EventRsvpDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EventRsvpUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EventRsvpUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>[]
+          }
+          upsert: {
+            args: Prisma.EventRsvpUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventRsvpPayload>
+          }
+          aggregate: {
+            args: Prisma.EventRsvpAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEventRsvp>
+          }
+          groupBy: {
+            args: Prisma.EventRsvpGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EventRsvpGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EventRsvpCountArgs<ExtArgs>
+            result: $Utils.Optional<EventRsvpCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1658,6 +1929,9 @@ export namespace Prisma {
     bookmark?: BookmarkOmit
     userDiscipline?: UserDisciplineOmit
     event?: EventOmit
+    userDismissedEvent?: UserDismissedEventOmit
+    opinion?: OpinionOmit
+    eventRsvp?: EventRsvpOmit
   }
 
   /* Types for Logging */
@@ -1740,11 +2014,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     bookmarks: number
     preferences: number
+    rsvps: number
+    dismissedEvents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookmarks?: boolean | UserCountOutputTypeCountBookmarksArgs
     preferences?: boolean | UserCountOutputTypeCountPreferencesArgs
+    rsvps?: boolean | UserCountOutputTypeCountRsvpsArgs
+    dismissedEvents?: boolean | UserCountOutputTypeCountDismissedEventsArgs
   }
 
   // Custom InputTypes
@@ -1770,6 +2048,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserDisciplineWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRsvpsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventRsvpWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDismissedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDismissedEventWhereInput
   }
 
 
@@ -1947,6 +2239,46 @@ export namespace Prisma {
 
 
   /**
+   * Count Type EventCountOutputType
+   */
+
+  export type EventCountOutputType = {
+    rsvps: number
+    dismissedBy: number
+  }
+
+  export type EventCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rsvps?: boolean | EventCountOutputTypeCountRsvpsArgs
+    dismissedBy?: boolean | EventCountOutputTypeCountDismissedByArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * EventCountOutputType without action
+   */
+  export type EventCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventCountOutputType
+     */
+    select?: EventCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * EventCountOutputType without action
+   */
+  export type EventCountOutputTypeCountRsvpsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventRsvpWhereInput
+  }
+
+  /**
+   * EventCountOutputType without action
+   */
+  export type EventCountOutputTypeCountDismissedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDismissedEventWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -2116,6 +2448,8 @@ export namespace Prisma {
     createdAt?: boolean
     bookmarks?: boolean | User$bookmarksArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
+    rsvps?: boolean | User$rsvpsArgs<ExtArgs>
+    dismissedEvents?: boolean | User$dismissedEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2147,6 +2481,8 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookmarks?: boolean | User$bookmarksArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
+    rsvps?: boolean | User$rsvpsArgs<ExtArgs>
+    dismissedEvents?: boolean | User$dismissedEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2157,6 +2493,8 @@ export namespace Prisma {
     objects: {
       bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
       preferences: Prisma.$UserDisciplinePayload<ExtArgs>[]
+      rsvps: Prisma.$EventRsvpPayload<ExtArgs>[]
+      dismissedEvents: Prisma.$UserDismissedEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2560,6 +2898,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     bookmarks<T extends User$bookmarksArgs<ExtArgs> = {}>(args?: Subset<T, User$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preferences<T extends User$preferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$preferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDisciplinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rsvps<T extends User$rsvpsArgs<ExtArgs> = {}>(args?: Subset<T, User$rsvpsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dismissedEvents<T extends User$dismissedEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$dismissedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3027,6 +3367,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserDisciplineScalarFieldEnum | UserDisciplineScalarFieldEnum[]
+  }
+
+  /**
+   * User.rsvps
+   */
+  export type User$rsvpsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    where?: EventRsvpWhereInput
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    cursor?: EventRsvpWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventRsvpScalarFieldEnum | EventRsvpScalarFieldEnum[]
+  }
+
+  /**
+   * User.dismissedEvents
+   */
+  export type User$dismissedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    where?: UserDismissedEventWhereInput
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    cursor?: UserDismissedEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserDismissedEventScalarFieldEnum | UserDismissedEventScalarFieldEnum[]
   }
 
   /**
@@ -5175,6 +5563,8 @@ export namespace Prisma {
     title: string | null
     url: string | null
     excerpt: string | null
+    content: string | null
+    imageUrl: string | null
     publishedAt: Date | null
     sourceId: string | null
   }
@@ -5184,6 +5574,8 @@ export namespace Prisma {
     title: string | null
     url: string | null
     excerpt: string | null
+    content: string | null
+    imageUrl: string | null
     publishedAt: Date | null
     sourceId: string | null
   }
@@ -5193,6 +5585,8 @@ export namespace Prisma {
     title: number
     url: number
     excerpt: number
+    content: number
+    imageUrl: number
     publishedAt: number
     sourceId: number
     _all: number
@@ -5204,6 +5598,8 @@ export namespace Prisma {
     title?: true
     url?: true
     excerpt?: true
+    content?: true
+    imageUrl?: true
     publishedAt?: true
     sourceId?: true
   }
@@ -5213,6 +5609,8 @@ export namespace Prisma {
     title?: true
     url?: true
     excerpt?: true
+    content?: true
+    imageUrl?: true
     publishedAt?: true
     sourceId?: true
   }
@@ -5222,6 +5620,8 @@ export namespace Prisma {
     title?: true
     url?: true
     excerpt?: true
+    content?: true
+    imageUrl?: true
     publishedAt?: true
     sourceId?: true
     _all?: true
@@ -5304,6 +5704,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt: string | null
+    content: string | null
+    imageUrl: string | null
     publishedAt: Date | null
     sourceId: string | null
     _count: ArticleCountAggregateOutputType | null
@@ -5330,6 +5732,8 @@ export namespace Prisma {
     title?: boolean
     url?: boolean
     excerpt?: boolean
+    content?: boolean
+    imageUrl?: boolean
     publishedAt?: boolean
     sourceId?: boolean
     source?: boolean | Article$sourceArgs<ExtArgs>
@@ -5343,6 +5747,8 @@ export namespace Prisma {
     title?: boolean
     url?: boolean
     excerpt?: boolean
+    content?: boolean
+    imageUrl?: boolean
     publishedAt?: boolean
     sourceId?: boolean
     source?: boolean | Article$sourceArgs<ExtArgs>
@@ -5353,6 +5759,8 @@ export namespace Prisma {
     title?: boolean
     url?: boolean
     excerpt?: boolean
+    content?: boolean
+    imageUrl?: boolean
     publishedAt?: boolean
     sourceId?: boolean
     source?: boolean | Article$sourceArgs<ExtArgs>
@@ -5363,11 +5771,13 @@ export namespace Prisma {
     title?: boolean
     url?: boolean
     excerpt?: boolean
+    content?: boolean
+    imageUrl?: boolean
     publishedAt?: boolean
     sourceId?: boolean
   }
 
-  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "url" | "excerpt" | "publishedAt" | "sourceId", ExtArgs["result"]["article"]>
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "url" | "excerpt" | "content" | "imageUrl" | "publishedAt" | "sourceId", ExtArgs["result"]["article"]>
   export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     source?: boolean | Article$sourceArgs<ExtArgs>
     disciplines?: boolean | Article$disciplinesArgs<ExtArgs>
@@ -5393,6 +5803,8 @@ export namespace Prisma {
       title: string
       url: string
       excerpt: string | null
+      content: string | null
+      imageUrl: string | null
       publishedAt: Date | null
       sourceId: string | null
     }, ExtArgs["result"]["article"]>
@@ -5825,6 +6237,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Article", 'String'>
     readonly url: FieldRef<"Article", 'String'>
     readonly excerpt: FieldRef<"Article", 'String'>
+    readonly content: FieldRef<"Article", 'String'>
+    readonly imageUrl: FieldRef<"Article", 'String'>
     readonly publishedAt: FieldRef<"Article", 'DateTime'>
     readonly sourceId: FieldRef<"Article", 'String'>
   }
@@ -11768,6 +12182,8 @@ export namespace Prisma {
     hostRole: string | null
     hostAvatar: string | null
     createdAt: Date | null
+    registrationDeadline: string | null
+    externalId: string | null
   }
 
   export type EventMaxAggregateOutputType = {
@@ -11789,6 +12205,8 @@ export namespace Prisma {
     hostRole: string | null
     hostAvatar: string | null
     createdAt: Date | null
+    registrationDeadline: string | null
+    externalId: string | null
   }
 
   export type EventCountAggregateOutputType = {
@@ -11811,6 +12229,8 @@ export namespace Prisma {
     hostRole: number
     hostAvatar: number
     createdAt: number
+    registrationDeadline: number
+    externalId: number
     _all: number
   }
 
@@ -11844,6 +12264,8 @@ export namespace Prisma {
     hostRole?: true
     hostAvatar?: true
     createdAt?: true
+    registrationDeadline?: true
+    externalId?: true
   }
 
   export type EventMaxAggregateInputType = {
@@ -11865,6 +12287,8 @@ export namespace Prisma {
     hostRole?: true
     hostAvatar?: true
     createdAt?: true
+    registrationDeadline?: true
+    externalId?: true
   }
 
   export type EventCountAggregateInputType = {
@@ -11887,6 +12311,8 @@ export namespace Prisma {
     hostRole?: true
     hostAvatar?: true
     createdAt?: true
+    registrationDeadline?: true
+    externalId?: true
     _all?: true
   }
 
@@ -11996,6 +12422,8 @@ export namespace Prisma {
     hostRole: string
     hostAvatar: string | null
     createdAt: Date
+    registrationDeadline: string | null
+    externalId: string | null
     _count: EventCountAggregateOutputType | null
     _avg: EventAvgAggregateOutputType | null
     _sum: EventSumAggregateOutputType | null
@@ -12037,6 +12465,11 @@ export namespace Prisma {
     hostRole?: boolean
     hostAvatar?: boolean
     createdAt?: boolean
+    registrationDeadline?: boolean
+    externalId?: boolean
+    rsvps?: boolean | Event$rsvpsArgs<ExtArgs>
+    dismissedBy?: boolean | Event$dismissedByArgs<ExtArgs>
+    _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12059,6 +12492,8 @@ export namespace Prisma {
     hostRole?: boolean
     hostAvatar?: boolean
     createdAt?: boolean
+    registrationDeadline?: boolean
+    externalId?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12081,6 +12516,8 @@ export namespace Prisma {
     hostRole?: boolean
     hostAvatar?: boolean
     createdAt?: boolean
+    registrationDeadline?: boolean
+    externalId?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectScalar = {
@@ -12103,13 +12540,25 @@ export namespace Prisma {
     hostRole?: boolean
     hostAvatar?: boolean
     createdAt?: boolean
+    registrationDeadline?: boolean
+    externalId?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "type" | "status" | "date" | "time" | "duration" | "image" | "isFree" | "price" | "attendees" | "maxAttendees" | "tags" | "url" | "hostName" | "hostRole" | "hostAvatar" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "type" | "status" | "date" | "time" | "duration" | "image" | "isFree" | "price" | "attendees" | "maxAttendees" | "tags" | "url" | "hostName" | "hostRole" | "hostAvatar" | "createdAt" | "registrationDeadline" | "externalId", ExtArgs["result"]["event"]>
+  export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rsvps?: boolean | Event$rsvpsArgs<ExtArgs>
+    dismissedBy?: boolean | Event$dismissedByArgs<ExtArgs>
+    _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Event"
-    objects: {}
+    objects: {
+      rsvps: Prisma.$EventRsvpPayload<ExtArgs>[]
+      dismissedBy: Prisma.$UserDismissedEventPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
@@ -12130,6 +12579,16 @@ export namespace Prisma {
       hostRole: string
       hostAvatar: string | null
       createdAt: Date
+      /**
+       * Last date registrations/ticket sales are open. YYYY-MM-DD.
+       * Null = no explicit deadline (registration closes on event day).
+       */
+      registrationDeadline: string | null
+      /**
+       * Unique ID from an external source, e.g. "eventbrite:12345" or "luma:evt_abc".
+       * Null for manually seeded events.
+       */
+      externalId: string | null
     }, ExtArgs["result"]["event"]>
     composites: {}
   }
@@ -12524,6 +12983,8 @@ export namespace Prisma {
    */
   export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    rsvps<T extends Event$rsvpsArgs<ExtArgs> = {}>(args?: Subset<T, Event$rsvpsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dismissedBy<T extends Event$dismissedByArgs<ExtArgs> = {}>(args?: Subset<T, Event$dismissedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12572,6 +13033,8 @@ export namespace Prisma {
     readonly hostRole: FieldRef<"Event", 'String'>
     readonly hostAvatar: FieldRef<"Event", 'String'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
+    readonly registrationDeadline: FieldRef<"Event", 'String'>
+    readonly externalId: FieldRef<"Event", 'String'>
   }
     
 
@@ -12588,6 +13051,10 @@ export namespace Prisma {
      * Omit specific fields from the Event
      */
     omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
     /**
      * Filter, which Event to fetch.
      */
@@ -12607,6 +13074,10 @@ export namespace Prisma {
      */
     omit?: EventOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
      * Filter, which Event to fetch.
      */
     where: EventWhereUniqueInput
@@ -12624,6 +13095,10 @@ export namespace Prisma {
      * Omit specific fields from the Event
      */
     omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
     /**
      * Filter, which Event to fetch.
      */
@@ -12673,6 +13148,10 @@ export namespace Prisma {
      */
     omit?: EventOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
      * Filter, which Event to fetch.
      */
     where?: EventWhereInput
@@ -12721,6 +13200,10 @@ export namespace Prisma {
      */
     omit?: EventOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
      * Filter, which Events to fetch.
      */
     where?: EventWhereInput
@@ -12763,6 +13246,10 @@ export namespace Prisma {
      * Omit specific fields from the Event
      */
     omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
     /**
      * The data needed to create a Event.
      */
@@ -12811,6 +13298,10 @@ export namespace Prisma {
      * Omit specific fields from the Event
      */
     omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
     /**
      * The data needed to update a Event.
      */
@@ -12878,6 +13369,10 @@ export namespace Prisma {
      */
     omit?: EventOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
      * The filter to search for the Event to update in case it exists.
      */
     where: EventWhereUniqueInput
@@ -12904,6 +13399,10 @@ export namespace Prisma {
      */
     omit?: EventOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
      * Filter which Event to delete.
      */
     where: EventWhereUniqueInput
@@ -12924,6 +13423,54 @@ export namespace Prisma {
   }
 
   /**
+   * Event.rsvps
+   */
+  export type Event$rsvpsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    where?: EventRsvpWhereInput
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    cursor?: EventRsvpWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventRsvpScalarFieldEnum | EventRsvpScalarFieldEnum[]
+  }
+
+  /**
+   * Event.dismissedBy
+   */
+  export type Event$dismissedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    where?: UserDismissedEventWhereInput
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    cursor?: UserDismissedEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserDismissedEventScalarFieldEnum | UserDismissedEventScalarFieldEnum[]
+  }
+
+  /**
    * Event without action
    */
   export type EventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12935,6 +13482,3336 @@ export namespace Prisma {
      * Omit specific fields from the Event
      */
     omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserDismissedEvent
+   */
+
+  export type AggregateUserDismissedEvent = {
+    _count: UserDismissedEventCountAggregateOutputType | null
+    _min: UserDismissedEventMinAggregateOutputType | null
+    _max: UserDismissedEventMaxAggregateOutputType | null
+  }
+
+  export type UserDismissedEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventId: string | null
+    createdAt: Date | null
+  }
+
+  export type UserDismissedEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventId: string | null
+    createdAt: Date | null
+  }
+
+  export type UserDismissedEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    eventId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserDismissedEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+  }
+
+  export type UserDismissedEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+  }
+
+  export type UserDismissedEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserDismissedEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserDismissedEvent to aggregate.
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDismissedEvents to fetch.
+     */
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserDismissedEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDismissedEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDismissedEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserDismissedEvents
+    **/
+    _count?: true | UserDismissedEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserDismissedEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserDismissedEventMaxAggregateInputType
+  }
+
+  export type GetUserDismissedEventAggregateType<T extends UserDismissedEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserDismissedEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserDismissedEvent[P]>
+      : GetScalarType<T[P], AggregateUserDismissedEvent[P]>
+  }
+
+
+
+
+  export type UserDismissedEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDismissedEventWhereInput
+    orderBy?: UserDismissedEventOrderByWithAggregationInput | UserDismissedEventOrderByWithAggregationInput[]
+    by: UserDismissedEventScalarFieldEnum[] | UserDismissedEventScalarFieldEnum
+    having?: UserDismissedEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserDismissedEventCountAggregateInputType | true
+    _min?: UserDismissedEventMinAggregateInputType
+    _max?: UserDismissedEventMaxAggregateInputType
+  }
+
+  export type UserDismissedEventGroupByOutputType = {
+    id: string
+    userId: string
+    eventId: string
+    createdAt: Date
+    _count: UserDismissedEventCountAggregateOutputType | null
+    _min: UserDismissedEventMinAggregateOutputType | null
+    _max: UserDismissedEventMaxAggregateOutputType | null
+  }
+
+  type GetUserDismissedEventGroupByPayload<T extends UserDismissedEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserDismissedEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserDismissedEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserDismissedEventGroupByOutputType[P]>
+            : GetScalarType<T[P], UserDismissedEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserDismissedEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDismissedEvent"]>
+
+  export type UserDismissedEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDismissedEvent"]>
+
+  export type UserDismissedEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userDismissedEvent"]>
+
+  export type UserDismissedEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserDismissedEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "eventId" | "createdAt", ExtArgs["result"]["userDismissedEvent"]>
+  export type UserDismissedEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type UserDismissedEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type UserDismissedEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+
+  export type $UserDismissedEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserDismissedEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      event: Prisma.$EventPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      eventId: string
+      createdAt: Date
+    }, ExtArgs["result"]["userDismissedEvent"]>
+    composites: {}
+  }
+
+  type UserDismissedEventGetPayload<S extends boolean | null | undefined | UserDismissedEventDefaultArgs> = $Result.GetResult<Prisma.$UserDismissedEventPayload, S>
+
+  type UserDismissedEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserDismissedEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserDismissedEventCountAggregateInputType | true
+    }
+
+  export interface UserDismissedEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserDismissedEvent'], meta: { name: 'UserDismissedEvent' } }
+    /**
+     * Find zero or one UserDismissedEvent that matches the filter.
+     * @param {UserDismissedEventFindUniqueArgs} args - Arguments to find a UserDismissedEvent
+     * @example
+     * // Get one UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserDismissedEventFindUniqueArgs>(args: SelectSubset<T, UserDismissedEventFindUniqueArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserDismissedEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserDismissedEventFindUniqueOrThrowArgs} args - Arguments to find a UserDismissedEvent
+     * @example
+     * // Get one UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserDismissedEventFindUniqueOrThrowArgs>(args: SelectSubset<T, UserDismissedEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserDismissedEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventFindFirstArgs} args - Arguments to find a UserDismissedEvent
+     * @example
+     * // Get one UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserDismissedEventFindFirstArgs>(args?: SelectSubset<T, UserDismissedEventFindFirstArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserDismissedEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventFindFirstOrThrowArgs} args - Arguments to find a UserDismissedEvent
+     * @example
+     * // Get one UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserDismissedEventFindFirstOrThrowArgs>(args?: SelectSubset<T, UserDismissedEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserDismissedEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserDismissedEvents
+     * const userDismissedEvents = await prisma.userDismissedEvent.findMany()
+     * 
+     * // Get first 10 UserDismissedEvents
+     * const userDismissedEvents = await prisma.userDismissedEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userDismissedEventWithIdOnly = await prisma.userDismissedEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserDismissedEventFindManyArgs>(args?: SelectSubset<T, UserDismissedEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserDismissedEvent.
+     * @param {UserDismissedEventCreateArgs} args - Arguments to create a UserDismissedEvent.
+     * @example
+     * // Create one UserDismissedEvent
+     * const UserDismissedEvent = await prisma.userDismissedEvent.create({
+     *   data: {
+     *     // ... data to create a UserDismissedEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserDismissedEventCreateArgs>(args: SelectSubset<T, UserDismissedEventCreateArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserDismissedEvents.
+     * @param {UserDismissedEventCreateManyArgs} args - Arguments to create many UserDismissedEvents.
+     * @example
+     * // Create many UserDismissedEvents
+     * const userDismissedEvent = await prisma.userDismissedEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserDismissedEventCreateManyArgs>(args?: SelectSubset<T, UserDismissedEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserDismissedEvents and returns the data saved in the database.
+     * @param {UserDismissedEventCreateManyAndReturnArgs} args - Arguments to create many UserDismissedEvents.
+     * @example
+     * // Create many UserDismissedEvents
+     * const userDismissedEvent = await prisma.userDismissedEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserDismissedEvents and only return the `id`
+     * const userDismissedEventWithIdOnly = await prisma.userDismissedEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserDismissedEventCreateManyAndReturnArgs>(args?: SelectSubset<T, UserDismissedEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserDismissedEvent.
+     * @param {UserDismissedEventDeleteArgs} args - Arguments to delete one UserDismissedEvent.
+     * @example
+     * // Delete one UserDismissedEvent
+     * const UserDismissedEvent = await prisma.userDismissedEvent.delete({
+     *   where: {
+     *     // ... filter to delete one UserDismissedEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserDismissedEventDeleteArgs>(args: SelectSubset<T, UserDismissedEventDeleteArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserDismissedEvent.
+     * @param {UserDismissedEventUpdateArgs} args - Arguments to update one UserDismissedEvent.
+     * @example
+     * // Update one UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserDismissedEventUpdateArgs>(args: SelectSubset<T, UserDismissedEventUpdateArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserDismissedEvents.
+     * @param {UserDismissedEventDeleteManyArgs} args - Arguments to filter UserDismissedEvents to delete.
+     * @example
+     * // Delete a few UserDismissedEvents
+     * const { count } = await prisma.userDismissedEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserDismissedEventDeleteManyArgs>(args?: SelectSubset<T, UserDismissedEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserDismissedEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserDismissedEvents
+     * const userDismissedEvent = await prisma.userDismissedEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserDismissedEventUpdateManyArgs>(args: SelectSubset<T, UserDismissedEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserDismissedEvents and returns the data updated in the database.
+     * @param {UserDismissedEventUpdateManyAndReturnArgs} args - Arguments to update many UserDismissedEvents.
+     * @example
+     * // Update many UserDismissedEvents
+     * const userDismissedEvent = await prisma.userDismissedEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserDismissedEvents and only return the `id`
+     * const userDismissedEventWithIdOnly = await prisma.userDismissedEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserDismissedEventUpdateManyAndReturnArgs>(args: SelectSubset<T, UserDismissedEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserDismissedEvent.
+     * @param {UserDismissedEventUpsertArgs} args - Arguments to update or create a UserDismissedEvent.
+     * @example
+     * // Update or create a UserDismissedEvent
+     * const userDismissedEvent = await prisma.userDismissedEvent.upsert({
+     *   create: {
+     *     // ... data to create a UserDismissedEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserDismissedEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserDismissedEventUpsertArgs>(args: SelectSubset<T, UserDismissedEventUpsertArgs<ExtArgs>>): Prisma__UserDismissedEventClient<$Result.GetResult<Prisma.$UserDismissedEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserDismissedEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventCountArgs} args - Arguments to filter UserDismissedEvents to count.
+     * @example
+     * // Count the number of UserDismissedEvents
+     * const count = await prisma.userDismissedEvent.count({
+     *   where: {
+     *     // ... the filter for the UserDismissedEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserDismissedEventCountArgs>(
+      args?: Subset<T, UserDismissedEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserDismissedEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserDismissedEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserDismissedEventAggregateArgs>(args: Subset<T, UserDismissedEventAggregateArgs>): Prisma.PrismaPromise<GetUserDismissedEventAggregateType<T>>
+
+    /**
+     * Group by UserDismissedEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserDismissedEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserDismissedEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserDismissedEventGroupByArgs['orderBy'] }
+        : { orderBy?: UserDismissedEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserDismissedEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserDismissedEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserDismissedEvent model
+   */
+  readonly fields: UserDismissedEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserDismissedEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserDismissedEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserDismissedEvent model
+   */
+  interface UserDismissedEventFieldRefs {
+    readonly id: FieldRef<"UserDismissedEvent", 'String'>
+    readonly userId: FieldRef<"UserDismissedEvent", 'String'>
+    readonly eventId: FieldRef<"UserDismissedEvent", 'String'>
+    readonly createdAt: FieldRef<"UserDismissedEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserDismissedEvent findUnique
+   */
+  export type UserDismissedEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDismissedEvent to fetch.
+     */
+    where: UserDismissedEventWhereUniqueInput
+  }
+
+  /**
+   * UserDismissedEvent findUniqueOrThrow
+   */
+  export type UserDismissedEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDismissedEvent to fetch.
+     */
+    where: UserDismissedEventWhereUniqueInput
+  }
+
+  /**
+   * UserDismissedEvent findFirst
+   */
+  export type UserDismissedEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDismissedEvent to fetch.
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDismissedEvents to fetch.
+     */
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserDismissedEvents.
+     */
+    cursor?: UserDismissedEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDismissedEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDismissedEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserDismissedEvents.
+     */
+    distinct?: UserDismissedEventScalarFieldEnum | UserDismissedEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserDismissedEvent findFirstOrThrow
+   */
+  export type UserDismissedEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDismissedEvent to fetch.
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDismissedEvents to fetch.
+     */
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserDismissedEvents.
+     */
+    cursor?: UserDismissedEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDismissedEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDismissedEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserDismissedEvents.
+     */
+    distinct?: UserDismissedEventScalarFieldEnum | UserDismissedEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserDismissedEvent findMany
+   */
+  export type UserDismissedEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserDismissedEvents to fetch.
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserDismissedEvents to fetch.
+     */
+    orderBy?: UserDismissedEventOrderByWithRelationInput | UserDismissedEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserDismissedEvents.
+     */
+    cursor?: UserDismissedEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserDismissedEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserDismissedEvents.
+     */
+    skip?: number
+    distinct?: UserDismissedEventScalarFieldEnum | UserDismissedEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserDismissedEvent create
+   */
+  export type UserDismissedEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserDismissedEvent.
+     */
+    data: XOR<UserDismissedEventCreateInput, UserDismissedEventUncheckedCreateInput>
+  }
+
+  /**
+   * UserDismissedEvent createMany
+   */
+  export type UserDismissedEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserDismissedEvents.
+     */
+    data: UserDismissedEventCreateManyInput | UserDismissedEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserDismissedEvent createManyAndReturn
+   */
+  export type UserDismissedEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserDismissedEvents.
+     */
+    data: UserDismissedEventCreateManyInput | UserDismissedEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserDismissedEvent update
+   */
+  export type UserDismissedEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserDismissedEvent.
+     */
+    data: XOR<UserDismissedEventUpdateInput, UserDismissedEventUncheckedUpdateInput>
+    /**
+     * Choose, which UserDismissedEvent to update.
+     */
+    where: UserDismissedEventWhereUniqueInput
+  }
+
+  /**
+   * UserDismissedEvent updateMany
+   */
+  export type UserDismissedEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserDismissedEvents.
+     */
+    data: XOR<UserDismissedEventUpdateManyMutationInput, UserDismissedEventUncheckedUpdateManyInput>
+    /**
+     * Filter which UserDismissedEvents to update
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * Limit how many UserDismissedEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserDismissedEvent updateManyAndReturn
+   */
+  export type UserDismissedEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * The data used to update UserDismissedEvents.
+     */
+    data: XOR<UserDismissedEventUpdateManyMutationInput, UserDismissedEventUncheckedUpdateManyInput>
+    /**
+     * Filter which UserDismissedEvents to update
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * Limit how many UserDismissedEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserDismissedEvent upsert
+   */
+  export type UserDismissedEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserDismissedEvent to update in case it exists.
+     */
+    where: UserDismissedEventWhereUniqueInput
+    /**
+     * In case the UserDismissedEvent found by the `where` argument doesn't exist, create a new UserDismissedEvent with this data.
+     */
+    create: XOR<UserDismissedEventCreateInput, UserDismissedEventUncheckedCreateInput>
+    /**
+     * In case the UserDismissedEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserDismissedEventUpdateInput, UserDismissedEventUncheckedUpdateInput>
+  }
+
+  /**
+   * UserDismissedEvent delete
+   */
+  export type UserDismissedEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+    /**
+     * Filter which UserDismissedEvent to delete.
+     */
+    where: UserDismissedEventWhereUniqueInput
+  }
+
+  /**
+   * UserDismissedEvent deleteMany
+   */
+  export type UserDismissedEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserDismissedEvents to delete
+     */
+    where?: UserDismissedEventWhereInput
+    /**
+     * Limit how many UserDismissedEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserDismissedEvent without action
+   */
+  export type UserDismissedEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDismissedEvent
+     */
+    select?: UserDismissedEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDismissedEvent
+     */
+    omit?: UserDismissedEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDismissedEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Opinion
+   */
+
+  export type AggregateOpinion = {
+    _count: OpinionCountAggregateOutputType | null
+    _avg: OpinionAvgAggregateOutputType | null
+    _sum: OpinionSumAggregateOutputType | null
+    _min: OpinionMinAggregateOutputType | null
+    _max: OpinionMaxAggregateOutputType | null
+  }
+
+  export type OpinionAvgAggregateOutputType = {
+    upvotes: number | null
+  }
+
+  export type OpinionSumAggregateOutputType = {
+    upvotes: number | null
+  }
+
+  export type OpinionMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    excerpt: string | null
+    snippet: string | null
+    imageUrl: string | null
+    publishedAt: Date | null
+    readTime: string | null
+    featured: boolean | null
+    sourceUrl: string | null
+    sourcePlatform: string | null
+    subreddit: string | null
+    upvotes: number | null
+    authorName: string | null
+    authorRole: string | null
+    authorAvatar: string | null
+    authorBio: string | null
+    authorHandle: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpinionMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    excerpt: string | null
+    snippet: string | null
+    imageUrl: string | null
+    publishedAt: Date | null
+    readTime: string | null
+    featured: boolean | null
+    sourceUrl: string | null
+    sourcePlatform: string | null
+    subreddit: string | null
+    upvotes: number | null
+    authorName: string | null
+    authorRole: string | null
+    authorAvatar: string | null
+    authorBio: string | null
+    authorHandle: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OpinionCountAggregateOutputType = {
+    id: number
+    title: number
+    excerpt: number
+    snippet: number
+    imageUrl: number
+    publishedAt: number
+    readTime: number
+    tags: number
+    featured: number
+    sourceUrl: number
+    sourcePlatform: number
+    subreddit: number
+    upvotes: number
+    authorName: number
+    authorRole: number
+    authorAvatar: number
+    authorBio: number
+    authorHandle: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OpinionAvgAggregateInputType = {
+    upvotes?: true
+  }
+
+  export type OpinionSumAggregateInputType = {
+    upvotes?: true
+  }
+
+  export type OpinionMinAggregateInputType = {
+    id?: true
+    title?: true
+    excerpt?: true
+    snippet?: true
+    imageUrl?: true
+    publishedAt?: true
+    readTime?: true
+    featured?: true
+    sourceUrl?: true
+    sourcePlatform?: true
+    subreddit?: true
+    upvotes?: true
+    authorName?: true
+    authorRole?: true
+    authorAvatar?: true
+    authorBio?: true
+    authorHandle?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpinionMaxAggregateInputType = {
+    id?: true
+    title?: true
+    excerpt?: true
+    snippet?: true
+    imageUrl?: true
+    publishedAt?: true
+    readTime?: true
+    featured?: true
+    sourceUrl?: true
+    sourcePlatform?: true
+    subreddit?: true
+    upvotes?: true
+    authorName?: true
+    authorRole?: true
+    authorAvatar?: true
+    authorBio?: true
+    authorHandle?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OpinionCountAggregateInputType = {
+    id?: true
+    title?: true
+    excerpt?: true
+    snippet?: true
+    imageUrl?: true
+    publishedAt?: true
+    readTime?: true
+    tags?: true
+    featured?: true
+    sourceUrl?: true
+    sourcePlatform?: true
+    subreddit?: true
+    upvotes?: true
+    authorName?: true
+    authorRole?: true
+    authorAvatar?: true
+    authorBio?: true
+    authorHandle?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OpinionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Opinion to aggregate.
+     */
+    where?: OpinionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Opinions to fetch.
+     */
+    orderBy?: OpinionOrderByWithRelationInput | OpinionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OpinionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Opinions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Opinions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Opinions
+    **/
+    _count?: true | OpinionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OpinionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OpinionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OpinionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OpinionMaxAggregateInputType
+  }
+
+  export type GetOpinionAggregateType<T extends OpinionAggregateArgs> = {
+        [P in keyof T & keyof AggregateOpinion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOpinion[P]>
+      : GetScalarType<T[P], AggregateOpinion[P]>
+  }
+
+
+
+
+  export type OpinionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpinionWhereInput
+    orderBy?: OpinionOrderByWithAggregationInput | OpinionOrderByWithAggregationInput[]
+    by: OpinionScalarFieldEnum[] | OpinionScalarFieldEnum
+    having?: OpinionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OpinionCountAggregateInputType | true
+    _avg?: OpinionAvgAggregateInputType
+    _sum?: OpinionSumAggregateInputType
+    _min?: OpinionMinAggregateInputType
+    _max?: OpinionMaxAggregateInputType
+  }
+
+  export type OpinionGroupByOutputType = {
+    id: string
+    title: string
+    excerpt: string
+    snippet: string | null
+    imageUrl: string | null
+    publishedAt: Date
+    readTime: string | null
+    tags: string[]
+    featured: boolean
+    sourceUrl: string
+    sourcePlatform: string
+    subreddit: string | null
+    upvotes: number | null
+    authorName: string
+    authorRole: string | null
+    authorAvatar: string | null
+    authorBio: string | null
+    authorHandle: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OpinionCountAggregateOutputType | null
+    _avg: OpinionAvgAggregateOutputType | null
+    _sum: OpinionSumAggregateOutputType | null
+    _min: OpinionMinAggregateOutputType | null
+    _max: OpinionMaxAggregateOutputType | null
+  }
+
+  type GetOpinionGroupByPayload<T extends OpinionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OpinionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OpinionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OpinionGroupByOutputType[P]>
+            : GetScalarType<T[P], OpinionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OpinionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    excerpt?: boolean
+    snippet?: boolean
+    imageUrl?: boolean
+    publishedAt?: boolean
+    readTime?: boolean
+    tags?: boolean
+    featured?: boolean
+    sourceUrl?: boolean
+    sourcePlatform?: boolean
+    subreddit?: boolean
+    upvotes?: boolean
+    authorName?: boolean
+    authorRole?: boolean
+    authorAvatar?: boolean
+    authorBio?: boolean
+    authorHandle?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["opinion"]>
+
+  export type OpinionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    excerpt?: boolean
+    snippet?: boolean
+    imageUrl?: boolean
+    publishedAt?: boolean
+    readTime?: boolean
+    tags?: boolean
+    featured?: boolean
+    sourceUrl?: boolean
+    sourcePlatform?: boolean
+    subreddit?: boolean
+    upvotes?: boolean
+    authorName?: boolean
+    authorRole?: boolean
+    authorAvatar?: boolean
+    authorBio?: boolean
+    authorHandle?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["opinion"]>
+
+  export type OpinionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    excerpt?: boolean
+    snippet?: boolean
+    imageUrl?: boolean
+    publishedAt?: boolean
+    readTime?: boolean
+    tags?: boolean
+    featured?: boolean
+    sourceUrl?: boolean
+    sourcePlatform?: boolean
+    subreddit?: boolean
+    upvotes?: boolean
+    authorName?: boolean
+    authorRole?: boolean
+    authorAvatar?: boolean
+    authorBio?: boolean
+    authorHandle?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["opinion"]>
+
+  export type OpinionSelectScalar = {
+    id?: boolean
+    title?: boolean
+    excerpt?: boolean
+    snippet?: boolean
+    imageUrl?: boolean
+    publishedAt?: boolean
+    readTime?: boolean
+    tags?: boolean
+    featured?: boolean
+    sourceUrl?: boolean
+    sourcePlatform?: boolean
+    subreddit?: boolean
+    upvotes?: boolean
+    authorName?: boolean
+    authorRole?: boolean
+    authorAvatar?: boolean
+    authorBio?: boolean
+    authorHandle?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OpinionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "excerpt" | "snippet" | "imageUrl" | "publishedAt" | "readTime" | "tags" | "featured" | "sourceUrl" | "sourcePlatform" | "subreddit" | "upvotes" | "authorName" | "authorRole" | "authorAvatar" | "authorBio" | "authorHandle" | "createdAt" | "updatedAt", ExtArgs["result"]["opinion"]>
+
+  export type $OpinionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Opinion"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      excerpt: string
+      snippet: string | null
+      imageUrl: string | null
+      publishedAt: Date
+      readTime: string | null
+      tags: string[]
+      featured: boolean
+      sourceUrl: string
+      sourcePlatform: string
+      subreddit: string | null
+      upvotes: number | null
+      authorName: string
+      authorRole: string | null
+      authorAvatar: string | null
+      authorBio: string | null
+      authorHandle: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["opinion"]>
+    composites: {}
+  }
+
+  type OpinionGetPayload<S extends boolean | null | undefined | OpinionDefaultArgs> = $Result.GetResult<Prisma.$OpinionPayload, S>
+
+  type OpinionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OpinionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OpinionCountAggregateInputType | true
+    }
+
+  export interface OpinionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Opinion'], meta: { name: 'Opinion' } }
+    /**
+     * Find zero or one Opinion that matches the filter.
+     * @param {OpinionFindUniqueArgs} args - Arguments to find a Opinion
+     * @example
+     * // Get one Opinion
+     * const opinion = await prisma.opinion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OpinionFindUniqueArgs>(args: SelectSubset<T, OpinionFindUniqueArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Opinion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OpinionFindUniqueOrThrowArgs} args - Arguments to find a Opinion
+     * @example
+     * // Get one Opinion
+     * const opinion = await prisma.opinion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OpinionFindUniqueOrThrowArgs>(args: SelectSubset<T, OpinionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Opinion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionFindFirstArgs} args - Arguments to find a Opinion
+     * @example
+     * // Get one Opinion
+     * const opinion = await prisma.opinion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OpinionFindFirstArgs>(args?: SelectSubset<T, OpinionFindFirstArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Opinion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionFindFirstOrThrowArgs} args - Arguments to find a Opinion
+     * @example
+     * // Get one Opinion
+     * const opinion = await prisma.opinion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OpinionFindFirstOrThrowArgs>(args?: SelectSubset<T, OpinionFindFirstOrThrowArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Opinions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Opinions
+     * const opinions = await prisma.opinion.findMany()
+     * 
+     * // Get first 10 Opinions
+     * const opinions = await prisma.opinion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const opinionWithIdOnly = await prisma.opinion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OpinionFindManyArgs>(args?: SelectSubset<T, OpinionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Opinion.
+     * @param {OpinionCreateArgs} args - Arguments to create a Opinion.
+     * @example
+     * // Create one Opinion
+     * const Opinion = await prisma.opinion.create({
+     *   data: {
+     *     // ... data to create a Opinion
+     *   }
+     * })
+     * 
+     */
+    create<T extends OpinionCreateArgs>(args: SelectSubset<T, OpinionCreateArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Opinions.
+     * @param {OpinionCreateManyArgs} args - Arguments to create many Opinions.
+     * @example
+     * // Create many Opinions
+     * const opinion = await prisma.opinion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OpinionCreateManyArgs>(args?: SelectSubset<T, OpinionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Opinions and returns the data saved in the database.
+     * @param {OpinionCreateManyAndReturnArgs} args - Arguments to create many Opinions.
+     * @example
+     * // Create many Opinions
+     * const opinion = await prisma.opinion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Opinions and only return the `id`
+     * const opinionWithIdOnly = await prisma.opinion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OpinionCreateManyAndReturnArgs>(args?: SelectSubset<T, OpinionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Opinion.
+     * @param {OpinionDeleteArgs} args - Arguments to delete one Opinion.
+     * @example
+     * // Delete one Opinion
+     * const Opinion = await prisma.opinion.delete({
+     *   where: {
+     *     // ... filter to delete one Opinion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OpinionDeleteArgs>(args: SelectSubset<T, OpinionDeleteArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Opinion.
+     * @param {OpinionUpdateArgs} args - Arguments to update one Opinion.
+     * @example
+     * // Update one Opinion
+     * const opinion = await prisma.opinion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OpinionUpdateArgs>(args: SelectSubset<T, OpinionUpdateArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Opinions.
+     * @param {OpinionDeleteManyArgs} args - Arguments to filter Opinions to delete.
+     * @example
+     * // Delete a few Opinions
+     * const { count } = await prisma.opinion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OpinionDeleteManyArgs>(args?: SelectSubset<T, OpinionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Opinions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Opinions
+     * const opinion = await prisma.opinion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OpinionUpdateManyArgs>(args: SelectSubset<T, OpinionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Opinions and returns the data updated in the database.
+     * @param {OpinionUpdateManyAndReturnArgs} args - Arguments to update many Opinions.
+     * @example
+     * // Update many Opinions
+     * const opinion = await prisma.opinion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Opinions and only return the `id`
+     * const opinionWithIdOnly = await prisma.opinion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OpinionUpdateManyAndReturnArgs>(args: SelectSubset<T, OpinionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Opinion.
+     * @param {OpinionUpsertArgs} args - Arguments to update or create a Opinion.
+     * @example
+     * // Update or create a Opinion
+     * const opinion = await prisma.opinion.upsert({
+     *   create: {
+     *     // ... data to create a Opinion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Opinion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OpinionUpsertArgs>(args: SelectSubset<T, OpinionUpsertArgs<ExtArgs>>): Prisma__OpinionClient<$Result.GetResult<Prisma.$OpinionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Opinions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionCountArgs} args - Arguments to filter Opinions to count.
+     * @example
+     * // Count the number of Opinions
+     * const count = await prisma.opinion.count({
+     *   where: {
+     *     // ... the filter for the Opinions we want to count
+     *   }
+     * })
+    **/
+    count<T extends OpinionCountArgs>(
+      args?: Subset<T, OpinionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OpinionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Opinion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OpinionAggregateArgs>(args: Subset<T, OpinionAggregateArgs>): Prisma.PrismaPromise<GetOpinionAggregateType<T>>
+
+    /**
+     * Group by Opinion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OpinionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OpinionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OpinionGroupByArgs['orderBy'] }
+        : { orderBy?: OpinionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OpinionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOpinionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Opinion model
+   */
+  readonly fields: OpinionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Opinion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OpinionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Opinion model
+   */
+  interface OpinionFieldRefs {
+    readonly id: FieldRef<"Opinion", 'String'>
+    readonly title: FieldRef<"Opinion", 'String'>
+    readonly excerpt: FieldRef<"Opinion", 'String'>
+    readonly snippet: FieldRef<"Opinion", 'String'>
+    readonly imageUrl: FieldRef<"Opinion", 'String'>
+    readonly publishedAt: FieldRef<"Opinion", 'DateTime'>
+    readonly readTime: FieldRef<"Opinion", 'String'>
+    readonly tags: FieldRef<"Opinion", 'String[]'>
+    readonly featured: FieldRef<"Opinion", 'Boolean'>
+    readonly sourceUrl: FieldRef<"Opinion", 'String'>
+    readonly sourcePlatform: FieldRef<"Opinion", 'String'>
+    readonly subreddit: FieldRef<"Opinion", 'String'>
+    readonly upvotes: FieldRef<"Opinion", 'Int'>
+    readonly authorName: FieldRef<"Opinion", 'String'>
+    readonly authorRole: FieldRef<"Opinion", 'String'>
+    readonly authorAvatar: FieldRef<"Opinion", 'String'>
+    readonly authorBio: FieldRef<"Opinion", 'String'>
+    readonly authorHandle: FieldRef<"Opinion", 'String'>
+    readonly createdAt: FieldRef<"Opinion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Opinion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Opinion findUnique
+   */
+  export type OpinionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter, which Opinion to fetch.
+     */
+    where: OpinionWhereUniqueInput
+  }
+
+  /**
+   * Opinion findUniqueOrThrow
+   */
+  export type OpinionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter, which Opinion to fetch.
+     */
+    where: OpinionWhereUniqueInput
+  }
+
+  /**
+   * Opinion findFirst
+   */
+  export type OpinionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter, which Opinion to fetch.
+     */
+    where?: OpinionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Opinions to fetch.
+     */
+    orderBy?: OpinionOrderByWithRelationInput | OpinionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Opinions.
+     */
+    cursor?: OpinionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Opinions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Opinions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Opinions.
+     */
+    distinct?: OpinionScalarFieldEnum | OpinionScalarFieldEnum[]
+  }
+
+  /**
+   * Opinion findFirstOrThrow
+   */
+  export type OpinionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter, which Opinion to fetch.
+     */
+    where?: OpinionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Opinions to fetch.
+     */
+    orderBy?: OpinionOrderByWithRelationInput | OpinionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Opinions.
+     */
+    cursor?: OpinionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Opinions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Opinions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Opinions.
+     */
+    distinct?: OpinionScalarFieldEnum | OpinionScalarFieldEnum[]
+  }
+
+  /**
+   * Opinion findMany
+   */
+  export type OpinionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter, which Opinions to fetch.
+     */
+    where?: OpinionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Opinions to fetch.
+     */
+    orderBy?: OpinionOrderByWithRelationInput | OpinionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Opinions.
+     */
+    cursor?: OpinionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Opinions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Opinions.
+     */
+    skip?: number
+    distinct?: OpinionScalarFieldEnum | OpinionScalarFieldEnum[]
+  }
+
+  /**
+   * Opinion create
+   */
+  export type OpinionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Opinion.
+     */
+    data: XOR<OpinionCreateInput, OpinionUncheckedCreateInput>
+  }
+
+  /**
+   * Opinion createMany
+   */
+  export type OpinionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Opinions.
+     */
+    data: OpinionCreateManyInput | OpinionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Opinion createManyAndReturn
+   */
+  export type OpinionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Opinions.
+     */
+    data: OpinionCreateManyInput | OpinionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Opinion update
+   */
+  export type OpinionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Opinion.
+     */
+    data: XOR<OpinionUpdateInput, OpinionUncheckedUpdateInput>
+    /**
+     * Choose, which Opinion to update.
+     */
+    where: OpinionWhereUniqueInput
+  }
+
+  /**
+   * Opinion updateMany
+   */
+  export type OpinionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Opinions.
+     */
+    data: XOR<OpinionUpdateManyMutationInput, OpinionUncheckedUpdateManyInput>
+    /**
+     * Filter which Opinions to update
+     */
+    where?: OpinionWhereInput
+    /**
+     * Limit how many Opinions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Opinion updateManyAndReturn
+   */
+  export type OpinionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * The data used to update Opinions.
+     */
+    data: XOR<OpinionUpdateManyMutationInput, OpinionUncheckedUpdateManyInput>
+    /**
+     * Filter which Opinions to update
+     */
+    where?: OpinionWhereInput
+    /**
+     * Limit how many Opinions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Opinion upsert
+   */
+  export type OpinionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Opinion to update in case it exists.
+     */
+    where: OpinionWhereUniqueInput
+    /**
+     * In case the Opinion found by the `where` argument doesn't exist, create a new Opinion with this data.
+     */
+    create: XOR<OpinionCreateInput, OpinionUncheckedCreateInput>
+    /**
+     * In case the Opinion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OpinionUpdateInput, OpinionUncheckedUpdateInput>
+  }
+
+  /**
+   * Opinion delete
+   */
+  export type OpinionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+    /**
+     * Filter which Opinion to delete.
+     */
+    where: OpinionWhereUniqueInput
+  }
+
+  /**
+   * Opinion deleteMany
+   */
+  export type OpinionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Opinions to delete
+     */
+    where?: OpinionWhereInput
+    /**
+     * Limit how many Opinions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Opinion without action
+   */
+  export type OpinionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Opinion
+     */
+    select?: OpinionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Opinion
+     */
+    omit?: OpinionOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EventRsvp
+   */
+
+  export type AggregateEventRsvp = {
+    _count: EventRsvpCountAggregateOutputType | null
+    _min: EventRsvpMinAggregateOutputType | null
+    _max: EventRsvpMaxAggregateOutputType | null
+  }
+
+  export type EventRsvpMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventId: string | null
+    createdAt: Date | null
+  }
+
+  export type EventRsvpMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventId: string | null
+    createdAt: Date | null
+  }
+
+  export type EventRsvpCountAggregateOutputType = {
+    id: number
+    userId: number
+    eventId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type EventRsvpMinAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+  }
+
+  export type EventRsvpMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+  }
+
+  export type EventRsvpCountAggregateInputType = {
+    id?: true
+    userId?: true
+    eventId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type EventRsvpAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EventRsvp to aggregate.
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventRsvps to fetch.
+     */
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EventRsvpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventRsvps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventRsvps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EventRsvps
+    **/
+    _count?: true | EventRsvpCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EventRsvpMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EventRsvpMaxAggregateInputType
+  }
+
+  export type GetEventRsvpAggregateType<T extends EventRsvpAggregateArgs> = {
+        [P in keyof T & keyof AggregateEventRsvp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEventRsvp[P]>
+      : GetScalarType<T[P], AggregateEventRsvp[P]>
+  }
+
+
+
+
+  export type EventRsvpGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventRsvpWhereInput
+    orderBy?: EventRsvpOrderByWithAggregationInput | EventRsvpOrderByWithAggregationInput[]
+    by: EventRsvpScalarFieldEnum[] | EventRsvpScalarFieldEnum
+    having?: EventRsvpScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EventRsvpCountAggregateInputType | true
+    _min?: EventRsvpMinAggregateInputType
+    _max?: EventRsvpMaxAggregateInputType
+  }
+
+  export type EventRsvpGroupByOutputType = {
+    id: string
+    userId: string
+    eventId: string
+    createdAt: Date
+    _count: EventRsvpCountAggregateOutputType | null
+    _min: EventRsvpMinAggregateOutputType | null
+    _max: EventRsvpMaxAggregateOutputType | null
+  }
+
+  type GetEventRsvpGroupByPayload<T extends EventRsvpGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EventRsvpGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EventRsvpGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EventRsvpGroupByOutputType[P]>
+            : GetScalarType<T[P], EventRsvpGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EventRsvpSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventRsvp"]>
+
+  export type EventRsvpSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventRsvp"]>
+
+  export type EventRsvpSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eventRsvp"]>
+
+  export type EventRsvpSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    eventId?: boolean
+    createdAt?: boolean
+  }
+
+  export type EventRsvpOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "eventId" | "createdAt", ExtArgs["result"]["eventRsvp"]>
+  export type EventRsvpInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type EventRsvpIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+  export type EventRsvpIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    event?: boolean | EventDefaultArgs<ExtArgs>
+  }
+
+  export type $EventRsvpPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EventRsvp"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      event: Prisma.$EventPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      eventId: string
+      createdAt: Date
+    }, ExtArgs["result"]["eventRsvp"]>
+    composites: {}
+  }
+
+  type EventRsvpGetPayload<S extends boolean | null | undefined | EventRsvpDefaultArgs> = $Result.GetResult<Prisma.$EventRsvpPayload, S>
+
+  type EventRsvpCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EventRsvpFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EventRsvpCountAggregateInputType | true
+    }
+
+  export interface EventRsvpDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EventRsvp'], meta: { name: 'EventRsvp' } }
+    /**
+     * Find zero or one EventRsvp that matches the filter.
+     * @param {EventRsvpFindUniqueArgs} args - Arguments to find a EventRsvp
+     * @example
+     * // Get one EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EventRsvpFindUniqueArgs>(args: SelectSubset<T, EventRsvpFindUniqueArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EventRsvp that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EventRsvpFindUniqueOrThrowArgs} args - Arguments to find a EventRsvp
+     * @example
+     * // Get one EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EventRsvpFindUniqueOrThrowArgs>(args: SelectSubset<T, EventRsvpFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EventRsvp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpFindFirstArgs} args - Arguments to find a EventRsvp
+     * @example
+     * // Get one EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EventRsvpFindFirstArgs>(args?: SelectSubset<T, EventRsvpFindFirstArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EventRsvp that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpFindFirstOrThrowArgs} args - Arguments to find a EventRsvp
+     * @example
+     * // Get one EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EventRsvpFindFirstOrThrowArgs>(args?: SelectSubset<T, EventRsvpFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EventRsvps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EventRsvps
+     * const eventRsvps = await prisma.eventRsvp.findMany()
+     * 
+     * // Get first 10 EventRsvps
+     * const eventRsvps = await prisma.eventRsvp.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eventRsvpWithIdOnly = await prisma.eventRsvp.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EventRsvpFindManyArgs>(args?: SelectSubset<T, EventRsvpFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EventRsvp.
+     * @param {EventRsvpCreateArgs} args - Arguments to create a EventRsvp.
+     * @example
+     * // Create one EventRsvp
+     * const EventRsvp = await prisma.eventRsvp.create({
+     *   data: {
+     *     // ... data to create a EventRsvp
+     *   }
+     * })
+     * 
+     */
+    create<T extends EventRsvpCreateArgs>(args: SelectSubset<T, EventRsvpCreateArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EventRsvps.
+     * @param {EventRsvpCreateManyArgs} args - Arguments to create many EventRsvps.
+     * @example
+     * // Create many EventRsvps
+     * const eventRsvp = await prisma.eventRsvp.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EventRsvpCreateManyArgs>(args?: SelectSubset<T, EventRsvpCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EventRsvps and returns the data saved in the database.
+     * @param {EventRsvpCreateManyAndReturnArgs} args - Arguments to create many EventRsvps.
+     * @example
+     * // Create many EventRsvps
+     * const eventRsvp = await prisma.eventRsvp.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EventRsvps and only return the `id`
+     * const eventRsvpWithIdOnly = await prisma.eventRsvp.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EventRsvpCreateManyAndReturnArgs>(args?: SelectSubset<T, EventRsvpCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EventRsvp.
+     * @param {EventRsvpDeleteArgs} args - Arguments to delete one EventRsvp.
+     * @example
+     * // Delete one EventRsvp
+     * const EventRsvp = await prisma.eventRsvp.delete({
+     *   where: {
+     *     // ... filter to delete one EventRsvp
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EventRsvpDeleteArgs>(args: SelectSubset<T, EventRsvpDeleteArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EventRsvp.
+     * @param {EventRsvpUpdateArgs} args - Arguments to update one EventRsvp.
+     * @example
+     * // Update one EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EventRsvpUpdateArgs>(args: SelectSubset<T, EventRsvpUpdateArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EventRsvps.
+     * @param {EventRsvpDeleteManyArgs} args - Arguments to filter EventRsvps to delete.
+     * @example
+     * // Delete a few EventRsvps
+     * const { count } = await prisma.eventRsvp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EventRsvpDeleteManyArgs>(args?: SelectSubset<T, EventRsvpDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EventRsvps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EventRsvps
+     * const eventRsvp = await prisma.eventRsvp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EventRsvpUpdateManyArgs>(args: SelectSubset<T, EventRsvpUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EventRsvps and returns the data updated in the database.
+     * @param {EventRsvpUpdateManyAndReturnArgs} args - Arguments to update many EventRsvps.
+     * @example
+     * // Update many EventRsvps
+     * const eventRsvp = await prisma.eventRsvp.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EventRsvps and only return the `id`
+     * const eventRsvpWithIdOnly = await prisma.eventRsvp.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EventRsvpUpdateManyAndReturnArgs>(args: SelectSubset<T, EventRsvpUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EventRsvp.
+     * @param {EventRsvpUpsertArgs} args - Arguments to update or create a EventRsvp.
+     * @example
+     * // Update or create a EventRsvp
+     * const eventRsvp = await prisma.eventRsvp.upsert({
+     *   create: {
+     *     // ... data to create a EventRsvp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EventRsvp we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EventRsvpUpsertArgs>(args: SelectSubset<T, EventRsvpUpsertArgs<ExtArgs>>): Prisma__EventRsvpClient<$Result.GetResult<Prisma.$EventRsvpPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EventRsvps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpCountArgs} args - Arguments to filter EventRsvps to count.
+     * @example
+     * // Count the number of EventRsvps
+     * const count = await prisma.eventRsvp.count({
+     *   where: {
+     *     // ... the filter for the EventRsvps we want to count
+     *   }
+     * })
+    **/
+    count<T extends EventRsvpCountArgs>(
+      args?: Subset<T, EventRsvpCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EventRsvpCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EventRsvp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EventRsvpAggregateArgs>(args: Subset<T, EventRsvpAggregateArgs>): Prisma.PrismaPromise<GetEventRsvpAggregateType<T>>
+
+    /**
+     * Group by EventRsvp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventRsvpGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EventRsvpGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EventRsvpGroupByArgs['orderBy'] }
+        : { orderBy?: EventRsvpGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EventRsvpGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventRsvpGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EventRsvp model
+   */
+  readonly fields: EventRsvpFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EventRsvp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EventRsvpClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EventRsvp model
+   */
+  interface EventRsvpFieldRefs {
+    readonly id: FieldRef<"EventRsvp", 'String'>
+    readonly userId: FieldRef<"EventRsvp", 'String'>
+    readonly eventId: FieldRef<"EventRsvp", 'String'>
+    readonly createdAt: FieldRef<"EventRsvp", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EventRsvp findUnique
+   */
+  export type EventRsvpFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter, which EventRsvp to fetch.
+     */
+    where: EventRsvpWhereUniqueInput
+  }
+
+  /**
+   * EventRsvp findUniqueOrThrow
+   */
+  export type EventRsvpFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter, which EventRsvp to fetch.
+     */
+    where: EventRsvpWhereUniqueInput
+  }
+
+  /**
+   * EventRsvp findFirst
+   */
+  export type EventRsvpFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter, which EventRsvp to fetch.
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventRsvps to fetch.
+     */
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EventRsvps.
+     */
+    cursor?: EventRsvpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventRsvps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventRsvps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EventRsvps.
+     */
+    distinct?: EventRsvpScalarFieldEnum | EventRsvpScalarFieldEnum[]
+  }
+
+  /**
+   * EventRsvp findFirstOrThrow
+   */
+  export type EventRsvpFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter, which EventRsvp to fetch.
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventRsvps to fetch.
+     */
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EventRsvps.
+     */
+    cursor?: EventRsvpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventRsvps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventRsvps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EventRsvps.
+     */
+    distinct?: EventRsvpScalarFieldEnum | EventRsvpScalarFieldEnum[]
+  }
+
+  /**
+   * EventRsvp findMany
+   */
+  export type EventRsvpFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter, which EventRsvps to fetch.
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EventRsvps to fetch.
+     */
+    orderBy?: EventRsvpOrderByWithRelationInput | EventRsvpOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EventRsvps.
+     */
+    cursor?: EventRsvpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EventRsvps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EventRsvps.
+     */
+    skip?: number
+    distinct?: EventRsvpScalarFieldEnum | EventRsvpScalarFieldEnum[]
+  }
+
+  /**
+   * EventRsvp create
+   */
+  export type EventRsvpCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EventRsvp.
+     */
+    data: XOR<EventRsvpCreateInput, EventRsvpUncheckedCreateInput>
+  }
+
+  /**
+   * EventRsvp createMany
+   */
+  export type EventRsvpCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EventRsvps.
+     */
+    data: EventRsvpCreateManyInput | EventRsvpCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EventRsvp createManyAndReturn
+   */
+  export type EventRsvpCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * The data used to create many EventRsvps.
+     */
+    data: EventRsvpCreateManyInput | EventRsvpCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EventRsvp update
+   */
+  export type EventRsvpUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EventRsvp.
+     */
+    data: XOR<EventRsvpUpdateInput, EventRsvpUncheckedUpdateInput>
+    /**
+     * Choose, which EventRsvp to update.
+     */
+    where: EventRsvpWhereUniqueInput
+  }
+
+  /**
+   * EventRsvp updateMany
+   */
+  export type EventRsvpUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EventRsvps.
+     */
+    data: XOR<EventRsvpUpdateManyMutationInput, EventRsvpUncheckedUpdateManyInput>
+    /**
+     * Filter which EventRsvps to update
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * Limit how many EventRsvps to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EventRsvp updateManyAndReturn
+   */
+  export type EventRsvpUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * The data used to update EventRsvps.
+     */
+    data: XOR<EventRsvpUpdateManyMutationInput, EventRsvpUncheckedUpdateManyInput>
+    /**
+     * Filter which EventRsvps to update
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * Limit how many EventRsvps to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EventRsvp upsert
+   */
+  export type EventRsvpUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EventRsvp to update in case it exists.
+     */
+    where: EventRsvpWhereUniqueInput
+    /**
+     * In case the EventRsvp found by the `where` argument doesn't exist, create a new EventRsvp with this data.
+     */
+    create: XOR<EventRsvpCreateInput, EventRsvpUncheckedCreateInput>
+    /**
+     * In case the EventRsvp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EventRsvpUpdateInput, EventRsvpUncheckedUpdateInput>
+  }
+
+  /**
+   * EventRsvp delete
+   */
+  export type EventRsvpDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
+    /**
+     * Filter which EventRsvp to delete.
+     */
+    where: EventRsvpWhereUniqueInput
+  }
+
+  /**
+   * EventRsvp deleteMany
+   */
+  export type EventRsvpDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EventRsvps to delete
+     */
+    where?: EventRsvpWhereInput
+    /**
+     * Limit how many EventRsvps to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EventRsvp without action
+   */
+  export type EventRsvpDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EventRsvp
+     */
+    select?: EventRsvpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EventRsvp
+     */
+    omit?: EventRsvpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventRsvpInclude<ExtArgs> | null
   }
 
 
@@ -12986,6 +16863,8 @@ export namespace Prisma {
     title: 'title',
     url: 'url',
     excerpt: 'excerpt',
+    content: 'content',
+    imageUrl: 'imageUrl',
     publishedAt: 'publishedAt',
     sourceId: 'sourceId'
   };
@@ -13068,10 +16947,58 @@ export namespace Prisma {
     hostName: 'hostName',
     hostRole: 'hostRole',
     hostAvatar: 'hostAvatar',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    registrationDeadline: 'registrationDeadline',
+    externalId: 'externalId'
   };
 
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+  export const UserDismissedEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    eventId: 'eventId',
+    createdAt: 'createdAt'
+  };
+
+  export type UserDismissedEventScalarFieldEnum = (typeof UserDismissedEventScalarFieldEnum)[keyof typeof UserDismissedEventScalarFieldEnum]
+
+
+  export const OpinionScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    excerpt: 'excerpt',
+    snippet: 'snippet',
+    imageUrl: 'imageUrl',
+    publishedAt: 'publishedAt',
+    readTime: 'readTime',
+    tags: 'tags',
+    featured: 'featured',
+    sourceUrl: 'sourceUrl',
+    sourcePlatform: 'sourcePlatform',
+    subreddit: 'subreddit',
+    upvotes: 'upvotes',
+    authorName: 'authorName',
+    authorRole: 'authorRole',
+    authorAvatar: 'authorAvatar',
+    authorBio: 'authorBio',
+    authorHandle: 'authorHandle',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OpinionScalarFieldEnum = (typeof OpinionScalarFieldEnum)[keyof typeof OpinionScalarFieldEnum]
+
+
+  export const EventRsvpScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    eventId: 'eventId',
+    createdAt: 'createdAt'
+  };
+
+  export type EventRsvpScalarFieldEnum = (typeof EventRsvpScalarFieldEnum)[keyof typeof EventRsvpScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13222,6 +17149,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     bookmarks?: BookmarkListRelationFilter
     preferences?: UserDisciplineListRelationFilter
+    rsvps?: EventRsvpListRelationFilter
+    dismissedEvents?: UserDismissedEventListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13232,6 +17161,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     bookmarks?: BookmarkOrderByRelationAggregateInput
     preferences?: UserDisciplineOrderByRelationAggregateInput
+    rsvps?: EventRsvpOrderByRelationAggregateInput
+    dismissedEvents?: UserDismissedEventOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13245,6 +17176,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     bookmarks?: BookmarkListRelationFilter
     preferences?: UserDisciplineListRelationFilter
+    rsvps?: EventRsvpListRelationFilter
+    dismissedEvents?: UserDismissedEventListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13374,6 +17307,8 @@ export namespace Prisma {
     title?: StringFilter<"Article"> | string
     url?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
+    content?: StringNullableFilter<"Article"> | string | null
+    imageUrl?: StringNullableFilter<"Article"> | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     sourceId?: StringNullableFilter<"Article"> | string | null
     source?: XOR<SourceNullableScalarRelationFilter, SourceWhereInput> | null
@@ -13386,6 +17321,8 @@ export namespace Prisma {
     title?: SortOrder
     url?: SortOrder
     excerpt?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     sourceId?: SortOrderInput | SortOrder
     source?: SourceOrderByWithRelationInput
@@ -13401,6 +17338,8 @@ export namespace Prisma {
     NOT?: ArticleWhereInput | ArticleWhereInput[]
     title?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
+    content?: StringNullableFilter<"Article"> | string | null
+    imageUrl?: StringNullableFilter<"Article"> | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     sourceId?: StringNullableFilter<"Article"> | string | null
     source?: XOR<SourceNullableScalarRelationFilter, SourceWhereInput> | null
@@ -13413,6 +17352,8 @@ export namespace Prisma {
     title?: SortOrder
     url?: SortOrder
     excerpt?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     sourceId?: SortOrderInput | SortOrder
     _count?: ArticleCountOrderByAggregateInput
@@ -13428,6 +17369,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Article"> | string
     url?: StringWithAggregatesFilter<"Article"> | string
     excerpt?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    content?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Article"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
     sourceId?: StringNullableWithAggregatesFilter<"Article"> | string | null
   }
@@ -13749,6 +17692,10 @@ export namespace Prisma {
     hostRole?: StringFilter<"Event"> | string
     hostAvatar?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
+    registrationDeadline?: StringNullableFilter<"Event"> | string | null
+    externalId?: StringNullableFilter<"Event"> | string | null
+    rsvps?: EventRsvpListRelationFilter
+    dismissedBy?: UserDismissedEventListRelationFilter
   }
 
   export type EventOrderByWithRelationInput = {
@@ -13771,11 +17718,16 @@ export namespace Prisma {
     hostRole?: SortOrder
     hostAvatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    registrationDeadline?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    rsvps?: EventRsvpOrderByRelationAggregateInput
+    dismissedBy?: UserDismissedEventOrderByRelationAggregateInput
   }
 
   export type EventWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     title?: string
+    externalId?: string
     AND?: EventWhereInput | EventWhereInput[]
     OR?: EventWhereInput[]
     NOT?: EventWhereInput | EventWhereInput[]
@@ -13796,7 +17748,10 @@ export namespace Prisma {
     hostRole?: StringFilter<"Event"> | string
     hostAvatar?: StringNullableFilter<"Event"> | string | null
     createdAt?: DateTimeFilter<"Event"> | Date | string
-  }, "id" | "title">
+    registrationDeadline?: StringNullableFilter<"Event"> | string | null
+    rsvps?: EventRsvpListRelationFilter
+    dismissedBy?: UserDismissedEventListRelationFilter
+  }, "id" | "title" | "externalId">
 
   export type EventOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13818,6 +17773,8 @@ export namespace Prisma {
     hostRole?: SortOrder
     hostAvatar?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    registrationDeadline?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
     _count?: EventCountOrderByAggregateInput
     _avg?: EventAvgOrderByAggregateInput
     _max?: EventMaxOrderByAggregateInput
@@ -13848,6 +17805,245 @@ export namespace Prisma {
     hostRole?: StringWithAggregatesFilter<"Event"> | string
     hostAvatar?: StringNullableWithAggregatesFilter<"Event"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    registrationDeadline?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    externalId?: StringNullableWithAggregatesFilter<"Event"> | string | null
+  }
+
+  export type UserDismissedEventWhereInput = {
+    AND?: UserDismissedEventWhereInput | UserDismissedEventWhereInput[]
+    OR?: UserDismissedEventWhereInput[]
+    NOT?: UserDismissedEventWhereInput | UserDismissedEventWhereInput[]
+    id?: StringFilter<"UserDismissedEvent"> | string
+    userId?: StringFilter<"UserDismissedEvent"> | string
+    eventId?: StringFilter<"UserDismissedEvent"> | string
+    createdAt?: DateTimeFilter<"UserDismissedEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }
+
+  export type UserDismissedEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    event?: EventOrderByWithRelationInput
+  }
+
+  export type UserDismissedEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_eventId?: UserDismissedEventUserIdEventIdCompoundUniqueInput
+    AND?: UserDismissedEventWhereInput | UserDismissedEventWhereInput[]
+    OR?: UserDismissedEventWhereInput[]
+    NOT?: UserDismissedEventWhereInput | UserDismissedEventWhereInput[]
+    userId?: StringFilter<"UserDismissedEvent"> | string
+    eventId?: StringFilter<"UserDismissedEvent"> | string
+    createdAt?: DateTimeFilter<"UserDismissedEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }, "id" | "userId_eventId">
+
+  export type UserDismissedEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+    _count?: UserDismissedEventCountOrderByAggregateInput
+    _max?: UserDismissedEventMaxOrderByAggregateInput
+    _min?: UserDismissedEventMinOrderByAggregateInput
+  }
+
+  export type UserDismissedEventScalarWhereWithAggregatesInput = {
+    AND?: UserDismissedEventScalarWhereWithAggregatesInput | UserDismissedEventScalarWhereWithAggregatesInput[]
+    OR?: UserDismissedEventScalarWhereWithAggregatesInput[]
+    NOT?: UserDismissedEventScalarWhereWithAggregatesInput | UserDismissedEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserDismissedEvent"> | string
+    userId?: StringWithAggregatesFilter<"UserDismissedEvent"> | string
+    eventId?: StringWithAggregatesFilter<"UserDismissedEvent"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserDismissedEvent"> | Date | string
+  }
+
+  export type OpinionWhereInput = {
+    AND?: OpinionWhereInput | OpinionWhereInput[]
+    OR?: OpinionWhereInput[]
+    NOT?: OpinionWhereInput | OpinionWhereInput[]
+    id?: StringFilter<"Opinion"> | string
+    title?: StringFilter<"Opinion"> | string
+    excerpt?: StringFilter<"Opinion"> | string
+    snippet?: StringNullableFilter<"Opinion"> | string | null
+    imageUrl?: StringNullableFilter<"Opinion"> | string | null
+    publishedAt?: DateTimeFilter<"Opinion"> | Date | string
+    readTime?: StringNullableFilter<"Opinion"> | string | null
+    tags?: StringNullableListFilter<"Opinion">
+    featured?: BoolFilter<"Opinion"> | boolean
+    sourceUrl?: StringFilter<"Opinion"> | string
+    sourcePlatform?: StringFilter<"Opinion"> | string
+    subreddit?: StringNullableFilter<"Opinion"> | string | null
+    upvotes?: IntNullableFilter<"Opinion"> | number | null
+    authorName?: StringFilter<"Opinion"> | string
+    authorRole?: StringNullableFilter<"Opinion"> | string | null
+    authorAvatar?: StringNullableFilter<"Opinion"> | string | null
+    authorBio?: StringNullableFilter<"Opinion"> | string | null
+    authorHandle?: StringNullableFilter<"Opinion"> | string | null
+    createdAt?: DateTimeFilter<"Opinion"> | Date | string
+    updatedAt?: DateTimeFilter<"Opinion"> | Date | string
+  }
+
+  export type OpinionOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    snippet?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
+    readTime?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    featured?: SortOrder
+    sourceUrl?: SortOrder
+    sourcePlatform?: SortOrder
+    subreddit?: SortOrderInput | SortOrder
+    upvotes?: SortOrderInput | SortOrder
+    authorName?: SortOrder
+    authorRole?: SortOrderInput | SortOrder
+    authorAvatar?: SortOrderInput | SortOrder
+    authorBio?: SortOrderInput | SortOrder
+    authorHandle?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpinionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    sourceUrl?: string
+    AND?: OpinionWhereInput | OpinionWhereInput[]
+    OR?: OpinionWhereInput[]
+    NOT?: OpinionWhereInput | OpinionWhereInput[]
+    title?: StringFilter<"Opinion"> | string
+    excerpt?: StringFilter<"Opinion"> | string
+    snippet?: StringNullableFilter<"Opinion"> | string | null
+    imageUrl?: StringNullableFilter<"Opinion"> | string | null
+    publishedAt?: DateTimeFilter<"Opinion"> | Date | string
+    readTime?: StringNullableFilter<"Opinion"> | string | null
+    tags?: StringNullableListFilter<"Opinion">
+    featured?: BoolFilter<"Opinion"> | boolean
+    sourcePlatform?: StringFilter<"Opinion"> | string
+    subreddit?: StringNullableFilter<"Opinion"> | string | null
+    upvotes?: IntNullableFilter<"Opinion"> | number | null
+    authorName?: StringFilter<"Opinion"> | string
+    authorRole?: StringNullableFilter<"Opinion"> | string | null
+    authorAvatar?: StringNullableFilter<"Opinion"> | string | null
+    authorBio?: StringNullableFilter<"Opinion"> | string | null
+    authorHandle?: StringNullableFilter<"Opinion"> | string | null
+    createdAt?: DateTimeFilter<"Opinion"> | Date | string
+    updatedAt?: DateTimeFilter<"Opinion"> | Date | string
+  }, "id" | "sourceUrl">
+
+  export type OpinionOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    snippet?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
+    readTime?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    featured?: SortOrder
+    sourceUrl?: SortOrder
+    sourcePlatform?: SortOrder
+    subreddit?: SortOrderInput | SortOrder
+    upvotes?: SortOrderInput | SortOrder
+    authorName?: SortOrder
+    authorRole?: SortOrderInput | SortOrder
+    authorAvatar?: SortOrderInput | SortOrder
+    authorBio?: SortOrderInput | SortOrder
+    authorHandle?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OpinionCountOrderByAggregateInput
+    _avg?: OpinionAvgOrderByAggregateInput
+    _max?: OpinionMaxOrderByAggregateInput
+    _min?: OpinionMinOrderByAggregateInput
+    _sum?: OpinionSumOrderByAggregateInput
+  }
+
+  export type OpinionScalarWhereWithAggregatesInput = {
+    AND?: OpinionScalarWhereWithAggregatesInput | OpinionScalarWhereWithAggregatesInput[]
+    OR?: OpinionScalarWhereWithAggregatesInput[]
+    NOT?: OpinionScalarWhereWithAggregatesInput | OpinionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Opinion"> | string
+    title?: StringWithAggregatesFilter<"Opinion"> | string
+    excerpt?: StringWithAggregatesFilter<"Opinion"> | string
+    snippet?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    publishedAt?: DateTimeWithAggregatesFilter<"Opinion"> | Date | string
+    readTime?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    tags?: StringNullableListFilter<"Opinion">
+    featured?: BoolWithAggregatesFilter<"Opinion"> | boolean
+    sourceUrl?: StringWithAggregatesFilter<"Opinion"> | string
+    sourcePlatform?: StringWithAggregatesFilter<"Opinion"> | string
+    subreddit?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    upvotes?: IntNullableWithAggregatesFilter<"Opinion"> | number | null
+    authorName?: StringWithAggregatesFilter<"Opinion"> | string
+    authorRole?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    authorAvatar?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    authorBio?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    authorHandle?: StringNullableWithAggregatesFilter<"Opinion"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Opinion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Opinion"> | Date | string
+  }
+
+  export type EventRsvpWhereInput = {
+    AND?: EventRsvpWhereInput | EventRsvpWhereInput[]
+    OR?: EventRsvpWhereInput[]
+    NOT?: EventRsvpWhereInput | EventRsvpWhereInput[]
+    id?: StringFilter<"EventRsvp"> | string
+    userId?: StringFilter<"EventRsvp"> | string
+    eventId?: StringFilter<"EventRsvp"> | string
+    createdAt?: DateTimeFilter<"EventRsvp"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }
+
+  export type EventRsvpOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    event?: EventOrderByWithRelationInput
+  }
+
+  export type EventRsvpWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_eventId?: EventRsvpUserIdEventIdCompoundUniqueInput
+    AND?: EventRsvpWhereInput | EventRsvpWhereInput[]
+    OR?: EventRsvpWhereInput[]
+    NOT?: EventRsvpWhereInput | EventRsvpWhereInput[]
+    userId?: StringFilter<"EventRsvp"> | string
+    eventId?: StringFilter<"EventRsvp"> | string
+    createdAt?: DateTimeFilter<"EventRsvp"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>
+  }, "id" | "userId_eventId">
+
+  export type EventRsvpOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+    _count?: EventRsvpCountOrderByAggregateInput
+    _max?: EventRsvpMaxOrderByAggregateInput
+    _min?: EventRsvpMinOrderByAggregateInput
+  }
+
+  export type EventRsvpScalarWhereWithAggregatesInput = {
+    AND?: EventRsvpScalarWhereWithAggregatesInput | EventRsvpScalarWhereWithAggregatesInput[]
+    OR?: EventRsvpScalarWhereWithAggregatesInput[]
+    NOT?: EventRsvpScalarWhereWithAggregatesInput | EventRsvpScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EventRsvp"> | string
+    userId?: StringWithAggregatesFilter<"EventRsvp"> | string
+    eventId?: StringWithAggregatesFilter<"EventRsvp"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"EventRsvp"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -13858,6 +18054,8 @@ export namespace Prisma {
     createdAt?: Date | string
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput
     preferences?: UserDisciplineCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13868,6 +18066,8 @@ export namespace Prisma {
     createdAt?: Date | string
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
     preferences?: UserDisciplineUncheckedCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -13878,6 +18078,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
     preferences?: UserDisciplineUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13888,6 +18090,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
     preferences?: UserDisciplineUncheckedUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14009,6 +18213,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     source?: SourceCreateNestedOneWithoutArticlesInput
     disciplines?: ArticleDisciplineCreateNestedManyWithoutArticleInput
@@ -14020,6 +18226,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     sourceId?: string | null
     disciplines?: ArticleDisciplineUncheckedCreateNestedManyWithoutArticleInput
@@ -14031,6 +18239,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: SourceUpdateOneWithoutArticlesNestedInput
     disciplines?: ArticleDisciplineUpdateManyWithoutArticleNestedInput
@@ -14042,6 +18252,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sourceId?: NullableStringFieldUpdateOperationsInput | string | null
     disciplines?: ArticleDisciplineUncheckedUpdateManyWithoutArticleNestedInput
@@ -14053,6 +18265,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     sourceId?: string | null
   }
@@ -14062,6 +18276,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -14070,6 +18286,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sourceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -14387,6 +18605,10 @@ export namespace Prisma {
     hostRole: string
     hostAvatar?: string | null
     createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    rsvps?: EventRsvpCreateNestedManyWithoutEventInput
+    dismissedBy?: UserDismissedEventCreateNestedManyWithoutEventInput
   }
 
   export type EventUncheckedCreateInput = {
@@ -14409,6 +18631,10 @@ export namespace Prisma {
     hostRole: string
     hostAvatar?: string | null
     createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutEventInput
+    dismissedBy?: UserDismissedEventUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type EventUpdateInput = {
@@ -14431,6 +18657,10 @@ export namespace Prisma {
     hostRole?: StringFieldUpdateOperationsInput | string
     hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    rsvps?: EventRsvpUpdateManyWithoutEventNestedInput
+    dismissedBy?: UserDismissedEventUpdateManyWithoutEventNestedInput
   }
 
   export type EventUncheckedUpdateInput = {
@@ -14453,6 +18683,10 @@ export namespace Prisma {
     hostRole?: StringFieldUpdateOperationsInput | string
     hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutEventNestedInput
+    dismissedBy?: UserDismissedEventUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type EventCreateManyInput = {
@@ -14475,6 +18709,8 @@ export namespace Prisma {
     hostRole: string
     hostAvatar?: string | null
     createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
   }
 
   export type EventUpdateManyMutationInput = {
@@ -14497,6 +18733,8 @@ export namespace Prisma {
     hostRole?: StringFieldUpdateOperationsInput | string
     hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EventUncheckedUpdateManyInput = {
@@ -14518,6 +18756,263 @@ export namespace Prisma {
     hostName?: StringFieldUpdateOperationsInput | string
     hostRole?: StringFieldUpdateOperationsInput | string
     hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserDismissedEventCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutDismissedEventsInput
+    event: EventCreateNestedOneWithoutDismissedByInput
+  }
+
+  export type UserDismissedEventUncheckedCreateInput = {
+    id?: string
+    userId: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDismissedEventsNestedInput
+    event?: EventUpdateOneRequiredWithoutDismissedByNestedInput
+  }
+
+  export type UserDismissedEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventCreateManyInput = {
+    id?: string
+    userId: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpinionCreateInput = {
+    id?: string
+    title: string
+    excerpt: string
+    snippet?: string | null
+    imageUrl?: string | null
+    publishedAt: Date | string
+    readTime?: string | null
+    tags?: OpinionCreatetagsInput | string[]
+    featured?: boolean
+    sourceUrl: string
+    sourcePlatform: string
+    subreddit?: string | null
+    upvotes?: number | null
+    authorName: string
+    authorRole?: string | null
+    authorAvatar?: string | null
+    authorBio?: string | null
+    authorHandle?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpinionUncheckedCreateInput = {
+    id?: string
+    title: string
+    excerpt: string
+    snippet?: string | null
+    imageUrl?: string | null
+    publishedAt: Date | string
+    readTime?: string | null
+    tags?: OpinionCreatetagsInput | string[]
+    featured?: boolean
+    sourceUrl: string
+    sourcePlatform: string
+    subreddit?: string | null
+    upvotes?: number | null
+    authorName: string
+    authorRole?: string | null
+    authorAvatar?: string | null
+    authorBio?: string | null
+    authorHandle?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpinionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    snippet?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: OpinionUpdatetagsInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    sourceUrl?: StringFieldUpdateOperationsInput | string
+    sourcePlatform?: StringFieldUpdateOperationsInput | string
+    subreddit?: NullableStringFieldUpdateOperationsInput | string | null
+    upvotes?: NullableIntFieldUpdateOperationsInput | number | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: NullableStringFieldUpdateOperationsInput | string | null
+    authorAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    authorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    authorHandle?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpinionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    snippet?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: OpinionUpdatetagsInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    sourceUrl?: StringFieldUpdateOperationsInput | string
+    sourcePlatform?: StringFieldUpdateOperationsInput | string
+    subreddit?: NullableStringFieldUpdateOperationsInput | string | null
+    upvotes?: NullableIntFieldUpdateOperationsInput | number | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: NullableStringFieldUpdateOperationsInput | string | null
+    authorAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    authorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    authorHandle?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpinionCreateManyInput = {
+    id?: string
+    title: string
+    excerpt: string
+    snippet?: string | null
+    imageUrl?: string | null
+    publishedAt: Date | string
+    readTime?: string | null
+    tags?: OpinionCreatetagsInput | string[]
+    featured?: boolean
+    sourceUrl: string
+    sourcePlatform: string
+    subreddit?: string | null
+    upvotes?: number | null
+    authorName: string
+    authorRole?: string | null
+    authorAvatar?: string | null
+    authorBio?: string | null
+    authorHandle?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OpinionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    snippet?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: OpinionUpdatetagsInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    sourceUrl?: StringFieldUpdateOperationsInput | string
+    sourcePlatform?: StringFieldUpdateOperationsInput | string
+    subreddit?: NullableStringFieldUpdateOperationsInput | string | null
+    upvotes?: NullableIntFieldUpdateOperationsInput | number | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: NullableStringFieldUpdateOperationsInput | string | null
+    authorAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    authorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    authorHandle?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OpinionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    excerpt?: StringFieldUpdateOperationsInput | string
+    snippet?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readTime?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: OpinionUpdatetagsInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    sourceUrl?: StringFieldUpdateOperationsInput | string
+    sourcePlatform?: StringFieldUpdateOperationsInput | string
+    subreddit?: NullableStringFieldUpdateOperationsInput | string | null
+    upvotes?: NullableIntFieldUpdateOperationsInput | number | null
+    authorName?: StringFieldUpdateOperationsInput | string
+    authorRole?: NullableStringFieldUpdateOperationsInput | string | null
+    authorAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    authorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    authorHandle?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventRsvpCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRsvpsInput
+    event: EventCreateNestedOneWithoutRsvpsInput
+  }
+
+  export type EventRsvpUncheckedCreateInput = {
+    id?: string
+    userId: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type EventRsvpUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRsvpsNestedInput
+    event?: EventUpdateOneRequiredWithoutRsvpsNestedInput
+  }
+
+  export type EventRsvpUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventRsvpCreateManyInput = {
+    id?: string
+    userId: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type EventRsvpUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventRsvpUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14574,6 +19069,18 @@ export namespace Prisma {
     none?: UserDisciplineWhereInput
   }
 
+  export type EventRsvpListRelationFilter = {
+    every?: EventRsvpWhereInput
+    some?: EventRsvpWhereInput
+    none?: EventRsvpWhereInput
+  }
+
+  export type UserDismissedEventListRelationFilter = {
+    every?: UserDismissedEventWhereInput
+    some?: UserDismissedEventWhereInput
+    none?: UserDismissedEventWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -14584,6 +19091,14 @@ export namespace Prisma {
   }
 
   export type UserDisciplineOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EventRsvpOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserDismissedEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14743,6 +19258,8 @@ export namespace Prisma {
     title?: SortOrder
     url?: SortOrder
     excerpt?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
     publishedAt?: SortOrder
     sourceId?: SortOrder
   }
@@ -14752,6 +19269,8 @@ export namespace Prisma {
     title?: SortOrder
     url?: SortOrder
     excerpt?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
     publishedAt?: SortOrder
     sourceId?: SortOrder
   }
@@ -14761,6 +19280,8 @@ export namespace Prisma {
     title?: SortOrder
     url?: SortOrder
     excerpt?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
     publishedAt?: SortOrder
     sourceId?: SortOrder
   }
@@ -15039,6 +19560,8 @@ export namespace Prisma {
     hostRole?: SortOrder
     hostAvatar?: SortOrder
     createdAt?: SortOrder
+    registrationDeadline?: SortOrder
+    externalId?: SortOrder
   }
 
   export type EventAvgOrderByAggregateInput = {
@@ -15065,6 +19588,8 @@ export namespace Prisma {
     hostRole?: SortOrder
     hostAvatar?: SortOrder
     createdAt?: SortOrder
+    registrationDeadline?: SortOrder
+    externalId?: SortOrder
   }
 
   export type EventMinOrderByAggregateInput = {
@@ -15086,6 +19611,8 @@ export namespace Prisma {
     hostRole?: SortOrder
     hostAvatar?: SortOrder
     createdAt?: SortOrder
+    registrationDeadline?: SortOrder
+    externalId?: SortOrder
   }
 
   export type EventSumOrderByAggregateInput = {
@@ -15153,6 +19680,138 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EventScalarRelationFilter = {
+    is?: EventWhereInput
+    isNot?: EventWhereInput
+  }
+
+  export type UserDismissedEventUserIdEventIdCompoundUniqueInput = {
+    userId: string
+    eventId: string
+  }
+
+  export type UserDismissedEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserDismissedEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserDismissedEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OpinionCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    snippet?: SortOrder
+    imageUrl?: SortOrder
+    publishedAt?: SortOrder
+    readTime?: SortOrder
+    tags?: SortOrder
+    featured?: SortOrder
+    sourceUrl?: SortOrder
+    sourcePlatform?: SortOrder
+    subreddit?: SortOrder
+    upvotes?: SortOrder
+    authorName?: SortOrder
+    authorRole?: SortOrder
+    authorAvatar?: SortOrder
+    authorBio?: SortOrder
+    authorHandle?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpinionAvgOrderByAggregateInput = {
+    upvotes?: SortOrder
+  }
+
+  export type OpinionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    snippet?: SortOrder
+    imageUrl?: SortOrder
+    publishedAt?: SortOrder
+    readTime?: SortOrder
+    featured?: SortOrder
+    sourceUrl?: SortOrder
+    sourcePlatform?: SortOrder
+    subreddit?: SortOrder
+    upvotes?: SortOrder
+    authorName?: SortOrder
+    authorRole?: SortOrder
+    authorAvatar?: SortOrder
+    authorBio?: SortOrder
+    authorHandle?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpinionMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    excerpt?: SortOrder
+    snippet?: SortOrder
+    imageUrl?: SortOrder
+    publishedAt?: SortOrder
+    readTime?: SortOrder
+    featured?: SortOrder
+    sourceUrl?: SortOrder
+    sourcePlatform?: SortOrder
+    subreddit?: SortOrder
+    upvotes?: SortOrder
+    authorName?: SortOrder
+    authorRole?: SortOrder
+    authorAvatar?: SortOrder
+    authorBio?: SortOrder
+    authorHandle?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OpinionSumOrderByAggregateInput = {
+    upvotes?: SortOrder
+  }
+
+  export type EventRsvpUserIdEventIdCompoundUniqueInput = {
+    userId: string
+    eventId: string
+  }
+
+  export type EventRsvpCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EventRsvpMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EventRsvpMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type BookmarkCreateNestedManyWithoutUserInput = {
     create?: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput> | BookmarkCreateWithoutUserInput[] | BookmarkUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[]
@@ -15167,6 +19826,20 @@ export namespace Prisma {
     connect?: UserDisciplineWhereUniqueInput | UserDisciplineWhereUniqueInput[]
   }
 
+  export type EventRsvpCreateNestedManyWithoutUserInput = {
+    create?: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput> | EventRsvpCreateWithoutUserInput[] | EventRsvpUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutUserInput | EventRsvpCreateOrConnectWithoutUserInput[]
+    createMany?: EventRsvpCreateManyUserInputEnvelope
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+  }
+
+  export type UserDismissedEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput> | UserDismissedEventCreateWithoutUserInput[] | UserDismissedEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutUserInput | UserDismissedEventCreateOrConnectWithoutUserInput[]
+    createMany?: UserDismissedEventCreateManyUserInputEnvelope
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+  }
+
   export type BookmarkUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput> | BookmarkCreateWithoutUserInput[] | BookmarkUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[]
@@ -15179,6 +19852,20 @@ export namespace Prisma {
     connectOrCreate?: UserDisciplineCreateOrConnectWithoutUserInput | UserDisciplineCreateOrConnectWithoutUserInput[]
     createMany?: UserDisciplineCreateManyUserInputEnvelope
     connect?: UserDisciplineWhereUniqueInput | UserDisciplineWhereUniqueInput[]
+  }
+
+  export type EventRsvpUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput> | EventRsvpCreateWithoutUserInput[] | EventRsvpUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutUserInput | EventRsvpCreateOrConnectWithoutUserInput[]
+    createMany?: EventRsvpCreateManyUserInputEnvelope
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+  }
+
+  export type UserDismissedEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput> | UserDismissedEventCreateWithoutUserInput[] | UserDismissedEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutUserInput | UserDismissedEventCreateOrConnectWithoutUserInput[]
+    createMany?: UserDismissedEventCreateManyUserInputEnvelope
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -15221,6 +19908,34 @@ export namespace Prisma {
     deleteMany?: UserDisciplineScalarWhereInput | UserDisciplineScalarWhereInput[]
   }
 
+  export type EventRsvpUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput> | EventRsvpCreateWithoutUserInput[] | EventRsvpUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutUserInput | EventRsvpCreateOrConnectWithoutUserInput[]
+    upsert?: EventRsvpUpsertWithWhereUniqueWithoutUserInput | EventRsvpUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EventRsvpCreateManyUserInputEnvelope
+    set?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    disconnect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    delete?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    update?: EventRsvpUpdateWithWhereUniqueWithoutUserInput | EventRsvpUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EventRsvpUpdateManyWithWhereWithoutUserInput | EventRsvpUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+  }
+
+  export type UserDismissedEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput> | UserDismissedEventCreateWithoutUserInput[] | UserDismissedEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutUserInput | UserDismissedEventCreateOrConnectWithoutUserInput[]
+    upsert?: UserDismissedEventUpsertWithWhereUniqueWithoutUserInput | UserDismissedEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserDismissedEventCreateManyUserInputEnvelope
+    set?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    disconnect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    delete?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    update?: UserDismissedEventUpdateWithWhereUniqueWithoutUserInput | UserDismissedEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserDismissedEventUpdateManyWithWhereWithoutUserInput | UserDismissedEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
+  }
+
   export type BookmarkUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<BookmarkCreateWithoutUserInput, BookmarkUncheckedCreateWithoutUserInput> | BookmarkCreateWithoutUserInput[] | BookmarkUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[]
@@ -15247,6 +19962,34 @@ export namespace Prisma {
     update?: UserDisciplineUpdateWithWhereUniqueWithoutUserInput | UserDisciplineUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserDisciplineUpdateManyWithWhereWithoutUserInput | UserDisciplineUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserDisciplineScalarWhereInput | UserDisciplineScalarWhereInput[]
+  }
+
+  export type EventRsvpUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput> | EventRsvpCreateWithoutUserInput[] | EventRsvpUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutUserInput | EventRsvpCreateOrConnectWithoutUserInput[]
+    upsert?: EventRsvpUpsertWithWhereUniqueWithoutUserInput | EventRsvpUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EventRsvpCreateManyUserInputEnvelope
+    set?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    disconnect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    delete?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    update?: EventRsvpUpdateWithWhereUniqueWithoutUserInput | EventRsvpUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EventRsvpUpdateManyWithWhereWithoutUserInput | EventRsvpUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+  }
+
+  export type UserDismissedEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput> | UserDismissedEventCreateWithoutUserInput[] | UserDismissedEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutUserInput | UserDismissedEventCreateOrConnectWithoutUserInput[]
+    upsert?: UserDismissedEventUpsertWithWhereUniqueWithoutUserInput | UserDismissedEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserDismissedEventCreateManyUserInputEnvelope
+    set?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    disconnect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    delete?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    update?: UserDismissedEventUpdateWithWhereUniqueWithoutUserInput | UserDismissedEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserDismissedEventUpdateManyWithWhereWithoutUserInput | UserDismissedEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
   }
 
   export type ArticleDisciplineCreateNestedManyWithoutDisciplineInput = {
@@ -15687,6 +20430,34 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type EventRsvpCreateNestedManyWithoutEventInput = {
+    create?: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput> | EventRsvpCreateWithoutEventInput[] | EventRsvpUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutEventInput | EventRsvpCreateOrConnectWithoutEventInput[]
+    createMany?: EventRsvpCreateManyEventInputEnvelope
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+  }
+
+  export type UserDismissedEventCreateNestedManyWithoutEventInput = {
+    create?: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput> | UserDismissedEventCreateWithoutEventInput[] | UserDismissedEventUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutEventInput | UserDismissedEventCreateOrConnectWithoutEventInput[]
+    createMany?: UserDismissedEventCreateManyEventInputEnvelope
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+  }
+
+  export type EventRsvpUncheckedCreateNestedManyWithoutEventInput = {
+    create?: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput> | EventRsvpCreateWithoutEventInput[] | EventRsvpUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutEventInput | EventRsvpCreateOrConnectWithoutEventInput[]
+    createMany?: EventRsvpCreateManyEventInputEnvelope
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+  }
+
+  export type UserDismissedEventUncheckedCreateNestedManyWithoutEventInput = {
+    create?: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput> | UserDismissedEventCreateWithoutEventInput[] | UserDismissedEventUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutEventInput | UserDismissedEventCreateOrConnectWithoutEventInput[]
+    createMany?: UserDismissedEventCreateManyEventInputEnvelope
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+  }
+
   export type EnumEventTypeFieldUpdateOperationsInput = {
     set?: $Enums.EventType
   }
@@ -15718,6 +20489,127 @@ export namespace Prisma {
   export type EventUpdatetagsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type EventRsvpUpdateManyWithoutEventNestedInput = {
+    create?: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput> | EventRsvpCreateWithoutEventInput[] | EventRsvpUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutEventInput | EventRsvpCreateOrConnectWithoutEventInput[]
+    upsert?: EventRsvpUpsertWithWhereUniqueWithoutEventInput | EventRsvpUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: EventRsvpCreateManyEventInputEnvelope
+    set?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    disconnect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    delete?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    update?: EventRsvpUpdateWithWhereUniqueWithoutEventInput | EventRsvpUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: EventRsvpUpdateManyWithWhereWithoutEventInput | EventRsvpUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+  }
+
+  export type UserDismissedEventUpdateManyWithoutEventNestedInput = {
+    create?: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput> | UserDismissedEventCreateWithoutEventInput[] | UserDismissedEventUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutEventInput | UserDismissedEventCreateOrConnectWithoutEventInput[]
+    upsert?: UserDismissedEventUpsertWithWhereUniqueWithoutEventInput | UserDismissedEventUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: UserDismissedEventCreateManyEventInputEnvelope
+    set?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    disconnect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    delete?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    update?: UserDismissedEventUpdateWithWhereUniqueWithoutEventInput | UserDismissedEventUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: UserDismissedEventUpdateManyWithWhereWithoutEventInput | UserDismissedEventUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
+  }
+
+  export type EventRsvpUncheckedUpdateManyWithoutEventNestedInput = {
+    create?: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput> | EventRsvpCreateWithoutEventInput[] | EventRsvpUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: EventRsvpCreateOrConnectWithoutEventInput | EventRsvpCreateOrConnectWithoutEventInput[]
+    upsert?: EventRsvpUpsertWithWhereUniqueWithoutEventInput | EventRsvpUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: EventRsvpCreateManyEventInputEnvelope
+    set?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    disconnect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    delete?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    connect?: EventRsvpWhereUniqueInput | EventRsvpWhereUniqueInput[]
+    update?: EventRsvpUpdateWithWhereUniqueWithoutEventInput | EventRsvpUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: EventRsvpUpdateManyWithWhereWithoutEventInput | EventRsvpUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+  }
+
+  export type UserDismissedEventUncheckedUpdateManyWithoutEventNestedInput = {
+    create?: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput> | UserDismissedEventCreateWithoutEventInput[] | UserDismissedEventUncheckedCreateWithoutEventInput[]
+    connectOrCreate?: UserDismissedEventCreateOrConnectWithoutEventInput | UserDismissedEventCreateOrConnectWithoutEventInput[]
+    upsert?: UserDismissedEventUpsertWithWhereUniqueWithoutEventInput | UserDismissedEventUpsertWithWhereUniqueWithoutEventInput[]
+    createMany?: UserDismissedEventCreateManyEventInputEnvelope
+    set?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    disconnect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    delete?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    connect?: UserDismissedEventWhereUniqueInput | UserDismissedEventWhereUniqueInput[]
+    update?: UserDismissedEventUpdateWithWhereUniqueWithoutEventInput | UserDismissedEventUpdateWithWhereUniqueWithoutEventInput[]
+    updateMany?: UserDismissedEventUpdateManyWithWhereWithoutEventInput | UserDismissedEventUpdateManyWithWhereWithoutEventInput[]
+    deleteMany?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutDismissedEventsInput = {
+    create?: XOR<UserCreateWithoutDismissedEventsInput, UserUncheckedCreateWithoutDismissedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDismissedEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EventCreateNestedOneWithoutDismissedByInput = {
+    create?: XOR<EventCreateWithoutDismissedByInput, EventUncheckedCreateWithoutDismissedByInput>
+    connectOrCreate?: EventCreateOrConnectWithoutDismissedByInput
+    connect?: EventWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDismissedEventsNestedInput = {
+    create?: XOR<UserCreateWithoutDismissedEventsInput, UserUncheckedCreateWithoutDismissedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDismissedEventsInput
+    upsert?: UserUpsertWithoutDismissedEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDismissedEventsInput, UserUpdateWithoutDismissedEventsInput>, UserUncheckedUpdateWithoutDismissedEventsInput>
+  }
+
+  export type EventUpdateOneRequiredWithoutDismissedByNestedInput = {
+    create?: XOR<EventCreateWithoutDismissedByInput, EventUncheckedCreateWithoutDismissedByInput>
+    connectOrCreate?: EventCreateOrConnectWithoutDismissedByInput
+    upsert?: EventUpsertWithoutDismissedByInput
+    connect?: EventWhereUniqueInput
+    update?: XOR<XOR<EventUpdateToOneWithWhereWithoutDismissedByInput, EventUpdateWithoutDismissedByInput>, EventUncheckedUpdateWithoutDismissedByInput>
+  }
+
+  export type OpinionCreatetagsInput = {
+    set: string[]
+  }
+
+  export type OpinionUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserCreateNestedOneWithoutRsvpsInput = {
+    create?: XOR<UserCreateWithoutRsvpsInput, UserUncheckedCreateWithoutRsvpsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRsvpsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EventCreateNestedOneWithoutRsvpsInput = {
+    create?: XOR<EventCreateWithoutRsvpsInput, EventUncheckedCreateWithoutRsvpsInput>
+    connectOrCreate?: EventCreateOrConnectWithoutRsvpsInput
+    connect?: EventWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRsvpsNestedInput = {
+    create?: XOR<UserCreateWithoutRsvpsInput, UserUncheckedCreateWithoutRsvpsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRsvpsInput
+    upsert?: UserUpsertWithoutRsvpsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRsvpsInput, UserUpdateWithoutRsvpsInput>, UserUncheckedUpdateWithoutRsvpsInput>
+  }
+
+  export type EventUpdateOneRequiredWithoutRsvpsNestedInput = {
+    create?: XOR<EventCreateWithoutRsvpsInput, EventUncheckedCreateWithoutRsvpsInput>
+    connectOrCreate?: EventCreateOrConnectWithoutRsvpsInput
+    upsert?: EventUpsertWithoutRsvpsInput
+    connect?: EventWhereUniqueInput
+    update?: XOR<XOR<EventUpdateToOneWithWhereWithoutRsvpsInput, EventUpdateWithoutRsvpsInput>, EventUncheckedUpdateWithoutRsvpsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -16016,6 +20908,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EventRsvpCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    event: EventCreateNestedOneWithoutRsvpsInput
+  }
+
+  export type EventRsvpUncheckedCreateWithoutUserInput = {
+    id?: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type EventRsvpCreateOrConnectWithoutUserInput = {
+    where: EventRsvpWhereUniqueInput
+    create: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput>
+  }
+
+  export type EventRsvpCreateManyUserInputEnvelope = {
+    data: EventRsvpCreateManyUserInput | EventRsvpCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserDismissedEventCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    event: EventCreateNestedOneWithoutDismissedByInput
+  }
+
+  export type UserDismissedEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventCreateOrConnectWithoutUserInput = {
+    where: UserDismissedEventWhereUniqueInput
+    create: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserDismissedEventCreateManyUserInputEnvelope = {
+    data: UserDismissedEventCreateManyUserInput | UserDismissedEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BookmarkUpsertWithWhereUniqueWithoutUserInput = {
     where: BookmarkWhereUniqueInput
     update: XOR<BookmarkUpdateWithoutUserInput, BookmarkUncheckedUpdateWithoutUserInput>
@@ -16066,6 +21002,58 @@ export namespace Prisma {
     id?: StringFilter<"UserDiscipline"> | string
     userId?: StringFilter<"UserDiscipline"> | string
     disciplineId?: StringFilter<"UserDiscipline"> | string
+  }
+
+  export type EventRsvpUpsertWithWhereUniqueWithoutUserInput = {
+    where: EventRsvpWhereUniqueInput
+    update: XOR<EventRsvpUpdateWithoutUserInput, EventRsvpUncheckedUpdateWithoutUserInput>
+    create: XOR<EventRsvpCreateWithoutUserInput, EventRsvpUncheckedCreateWithoutUserInput>
+  }
+
+  export type EventRsvpUpdateWithWhereUniqueWithoutUserInput = {
+    where: EventRsvpWhereUniqueInput
+    data: XOR<EventRsvpUpdateWithoutUserInput, EventRsvpUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EventRsvpUpdateManyWithWhereWithoutUserInput = {
+    where: EventRsvpScalarWhereInput
+    data: XOR<EventRsvpUpdateManyMutationInput, EventRsvpUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EventRsvpScalarWhereInput = {
+    AND?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+    OR?: EventRsvpScalarWhereInput[]
+    NOT?: EventRsvpScalarWhereInput | EventRsvpScalarWhereInput[]
+    id?: StringFilter<"EventRsvp"> | string
+    userId?: StringFilter<"EventRsvp"> | string
+    eventId?: StringFilter<"EventRsvp"> | string
+    createdAt?: DateTimeFilter<"EventRsvp"> | Date | string
+  }
+
+  export type UserDismissedEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserDismissedEventWhereUniqueInput
+    update: XOR<UserDismissedEventUpdateWithoutUserInput, UserDismissedEventUncheckedUpdateWithoutUserInput>
+    create: XOR<UserDismissedEventCreateWithoutUserInput, UserDismissedEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserDismissedEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserDismissedEventWhereUniqueInput
+    data: XOR<UserDismissedEventUpdateWithoutUserInput, UserDismissedEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserDismissedEventUpdateManyWithWhereWithoutUserInput = {
+    where: UserDismissedEventScalarWhereInput
+    data: XOR<UserDismissedEventUpdateManyMutationInput, UserDismissedEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserDismissedEventScalarWhereInput = {
+    AND?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
+    OR?: UserDismissedEventScalarWhereInput[]
+    NOT?: UserDismissedEventScalarWhereInput | UserDismissedEventScalarWhereInput[]
+    id?: StringFilter<"UserDismissedEvent"> | string
+    userId?: StringFilter<"UserDismissedEvent"> | string
+    eventId?: StringFilter<"UserDismissedEvent"> | string
+    createdAt?: DateTimeFilter<"UserDismissedEvent"> | Date | string
   }
 
   export type ArticleDisciplineCreateWithoutDisciplineInput = {
@@ -16154,6 +21142,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     source?: SourceCreateNestedOneWithoutArticlesInput
     bookmarks?: BookmarkCreateNestedManyWithoutArticleInput
@@ -16164,6 +21154,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     sourceId?: string | null
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutArticleInput
@@ -16209,6 +21201,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: SourceUpdateOneWithoutArticlesNestedInput
     bookmarks?: BookmarkUpdateManyWithoutArticleNestedInput
@@ -16219,6 +21213,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sourceId?: NullableStringFieldUpdateOperationsInput | string | null
     bookmarks?: BookmarkUncheckedUpdateManyWithoutArticleNestedInput
@@ -16374,6 +21370,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     disciplines?: ArticleDisciplineCreateNestedManyWithoutArticleInput
     bookmarks?: BookmarkCreateNestedManyWithoutArticleInput
@@ -16384,6 +21382,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     disciplines?: ArticleDisciplineUncheckedCreateNestedManyWithoutArticleInput
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutArticleInput
@@ -16423,6 +21423,8 @@ export namespace Prisma {
     title?: StringFilter<"Article"> | string
     url?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
+    content?: StringNullableFilter<"Article"> | string | null
+    imageUrl?: StringNullableFilter<"Article"> | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     sourceId?: StringNullableFilter<"Article"> | string | null
   }
@@ -16587,6 +21589,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     preferences?: UserDisciplineCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -16596,6 +21600,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     preferences?: UserDisciplineUncheckedCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -16608,6 +21614,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     source?: SourceCreateNestedOneWithoutArticlesInput
     disciplines?: ArticleDisciplineCreateNestedManyWithoutArticleInput
@@ -16618,6 +21626,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
     sourceId?: string | null
     disciplines?: ArticleDisciplineUncheckedCreateNestedManyWithoutArticleInput
@@ -16675,6 +21685,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     preferences?: UserDisciplineUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -16684,6 +21696,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     preferences?: UserDisciplineUncheckedUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ArticleUpsertWithoutBookmarksInput = {
@@ -16702,6 +21716,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: SourceUpdateOneWithoutArticlesNestedInput
     disciplines?: ArticleDisciplineUpdateManyWithoutArticleNestedInput
@@ -16712,6 +21728,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sourceId?: NullableStringFieldUpdateOperationsInput | string | null
     disciplines?: ArticleDisciplineUncheckedUpdateManyWithoutArticleNestedInput
@@ -16759,6 +21777,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPreferencesInput = {
@@ -16768,6 +21788,8 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPreferencesInput = {
@@ -16812,6 +21834,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPreferencesInput = {
@@ -16821,6 +21845,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DisciplineUpsertWithoutUsersInput = {
@@ -16848,6 +21874,434 @@ export namespace Prisma {
     articles?: ArticleDisciplineUncheckedUpdateManyWithoutDisciplineNestedInput
   }
 
+  export type EventRsvpCreateWithoutEventInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRsvpsInput
+  }
+
+  export type EventRsvpUncheckedCreateWithoutEventInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type EventRsvpCreateOrConnectWithoutEventInput = {
+    where: EventRsvpWhereUniqueInput
+    create: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput>
+  }
+
+  export type EventRsvpCreateManyEventInputEnvelope = {
+    data: EventRsvpCreateManyEventInput | EventRsvpCreateManyEventInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserDismissedEventCreateWithoutEventInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutDismissedEventsInput
+  }
+
+  export type UserDismissedEventUncheckedCreateWithoutEventInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventCreateOrConnectWithoutEventInput = {
+    where: UserDismissedEventWhereUniqueInput
+    create: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput>
+  }
+
+  export type UserDismissedEventCreateManyEventInputEnvelope = {
+    data: UserDismissedEventCreateManyEventInput | UserDismissedEventCreateManyEventInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EventRsvpUpsertWithWhereUniqueWithoutEventInput = {
+    where: EventRsvpWhereUniqueInput
+    update: XOR<EventRsvpUpdateWithoutEventInput, EventRsvpUncheckedUpdateWithoutEventInput>
+    create: XOR<EventRsvpCreateWithoutEventInput, EventRsvpUncheckedCreateWithoutEventInput>
+  }
+
+  export type EventRsvpUpdateWithWhereUniqueWithoutEventInput = {
+    where: EventRsvpWhereUniqueInput
+    data: XOR<EventRsvpUpdateWithoutEventInput, EventRsvpUncheckedUpdateWithoutEventInput>
+  }
+
+  export type EventRsvpUpdateManyWithWhereWithoutEventInput = {
+    where: EventRsvpScalarWhereInput
+    data: XOR<EventRsvpUpdateManyMutationInput, EventRsvpUncheckedUpdateManyWithoutEventInput>
+  }
+
+  export type UserDismissedEventUpsertWithWhereUniqueWithoutEventInput = {
+    where: UserDismissedEventWhereUniqueInput
+    update: XOR<UserDismissedEventUpdateWithoutEventInput, UserDismissedEventUncheckedUpdateWithoutEventInput>
+    create: XOR<UserDismissedEventCreateWithoutEventInput, UserDismissedEventUncheckedCreateWithoutEventInput>
+  }
+
+  export type UserDismissedEventUpdateWithWhereUniqueWithoutEventInput = {
+    where: UserDismissedEventWhereUniqueInput
+    data: XOR<UserDismissedEventUpdateWithoutEventInput, UserDismissedEventUncheckedUpdateWithoutEventInput>
+  }
+
+  export type UserDismissedEventUpdateManyWithWhereWithoutEventInput = {
+    where: UserDismissedEventScalarWhereInput
+    data: XOR<UserDismissedEventUpdateManyMutationInput, UserDismissedEventUncheckedUpdateManyWithoutEventInput>
+  }
+
+  export type UserCreateWithoutDismissedEventsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    preferences?: UserDisciplineCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDismissedEventsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    preferences?: UserDisciplineUncheckedCreateNestedManyWithoutUserInput
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDismissedEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDismissedEventsInput, UserUncheckedCreateWithoutDismissedEventsInput>
+  }
+
+  export type EventCreateWithoutDismissedByInput = {
+    id?: string
+    title: string
+    description: string
+    type: $Enums.EventType
+    status?: $Enums.EventStatus
+    date: string
+    time: string
+    duration: string
+    image?: string | null
+    isFree?: boolean
+    price?: string | null
+    attendees?: number
+    maxAttendees?: number | null
+    tags?: EventCreatetagsInput | string[]
+    url?: string | null
+    hostName: string
+    hostRole: string
+    hostAvatar?: string | null
+    createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    rsvps?: EventRsvpCreateNestedManyWithoutEventInput
+  }
+
+  export type EventUncheckedCreateWithoutDismissedByInput = {
+    id?: string
+    title: string
+    description: string
+    type: $Enums.EventType
+    status?: $Enums.EventStatus
+    date: string
+    time: string
+    duration: string
+    image?: string | null
+    isFree?: boolean
+    price?: string | null
+    attendees?: number
+    maxAttendees?: number | null
+    tags?: EventCreatetagsInput | string[]
+    url?: string | null
+    hostName: string
+    hostRole: string
+    hostAvatar?: string | null
+    createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    rsvps?: EventRsvpUncheckedCreateNestedManyWithoutEventInput
+  }
+
+  export type EventCreateOrConnectWithoutDismissedByInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutDismissedByInput, EventUncheckedCreateWithoutDismissedByInput>
+  }
+
+  export type UserUpsertWithoutDismissedEventsInput = {
+    update: XOR<UserUpdateWithoutDismissedEventsInput, UserUncheckedUpdateWithoutDismissedEventsInput>
+    create: XOR<UserCreateWithoutDismissedEventsInput, UserUncheckedCreateWithoutDismissedEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDismissedEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDismissedEventsInput, UserUncheckedUpdateWithoutDismissedEventsInput>
+  }
+
+  export type UserUpdateWithoutDismissedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    preferences?: UserDisciplineUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDismissedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    preferences?: UserDisciplineUncheckedUpdateManyWithoutUserNestedInput
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type EventUpsertWithoutDismissedByInput = {
+    update: XOR<EventUpdateWithoutDismissedByInput, EventUncheckedUpdateWithoutDismissedByInput>
+    create: XOR<EventCreateWithoutDismissedByInput, EventUncheckedCreateWithoutDismissedByInput>
+    where?: EventWhereInput
+  }
+
+  export type EventUpdateToOneWithWhereWithoutDismissedByInput = {
+    where?: EventWhereInput
+    data: XOR<EventUpdateWithoutDismissedByInput, EventUncheckedUpdateWithoutDismissedByInput>
+  }
+
+  export type EventUpdateWithoutDismissedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    attendees?: IntFieldUpdateOperationsInput | number
+    maxAttendees?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: EventUpdatetagsInput | string[]
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    hostName?: StringFieldUpdateOperationsInput | string
+    hostRole?: StringFieldUpdateOperationsInput | string
+    hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    rsvps?: EventRsvpUpdateManyWithoutEventNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutDismissedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    attendees?: IntFieldUpdateOperationsInput | number
+    maxAttendees?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: EventUpdatetagsInput | string[]
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    hostName?: StringFieldUpdateOperationsInput | string
+    hostRole?: StringFieldUpdateOperationsInput | string
+    hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    rsvps?: EventRsvpUncheckedUpdateManyWithoutEventNestedInput
+  }
+
+  export type UserCreateWithoutRsvpsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    bookmarks?: BookmarkCreateNestedManyWithoutUserInput
+    preferences?: UserDisciplineCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRsvpsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    bookmarks?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    preferences?: UserDisciplineUncheckedCreateNestedManyWithoutUserInput
+    dismissedEvents?: UserDismissedEventUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRsvpsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRsvpsInput, UserUncheckedCreateWithoutRsvpsInput>
+  }
+
+  export type EventCreateWithoutRsvpsInput = {
+    id?: string
+    title: string
+    description: string
+    type: $Enums.EventType
+    status?: $Enums.EventStatus
+    date: string
+    time: string
+    duration: string
+    image?: string | null
+    isFree?: boolean
+    price?: string | null
+    attendees?: number
+    maxAttendees?: number | null
+    tags?: EventCreatetagsInput | string[]
+    url?: string | null
+    hostName: string
+    hostRole: string
+    hostAvatar?: string | null
+    createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    dismissedBy?: UserDismissedEventCreateNestedManyWithoutEventInput
+  }
+
+  export type EventUncheckedCreateWithoutRsvpsInput = {
+    id?: string
+    title: string
+    description: string
+    type: $Enums.EventType
+    status?: $Enums.EventStatus
+    date: string
+    time: string
+    duration: string
+    image?: string | null
+    isFree?: boolean
+    price?: string | null
+    attendees?: number
+    maxAttendees?: number | null
+    tags?: EventCreatetagsInput | string[]
+    url?: string | null
+    hostName: string
+    hostRole: string
+    hostAvatar?: string | null
+    createdAt?: Date | string
+    registrationDeadline?: string | null
+    externalId?: string | null
+    dismissedBy?: UserDismissedEventUncheckedCreateNestedManyWithoutEventInput
+  }
+
+  export type EventCreateOrConnectWithoutRsvpsInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutRsvpsInput, EventUncheckedCreateWithoutRsvpsInput>
+  }
+
+  export type UserUpsertWithoutRsvpsInput = {
+    update: XOR<UserUpdateWithoutRsvpsInput, UserUncheckedUpdateWithoutRsvpsInput>
+    create: XOR<UserCreateWithoutRsvpsInput, UserUncheckedCreateWithoutRsvpsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRsvpsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRsvpsInput, UserUncheckedUpdateWithoutRsvpsInput>
+  }
+
+  export type UserUpdateWithoutRsvpsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookmarks?: BookmarkUpdateManyWithoutUserNestedInput
+    preferences?: UserDisciplineUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRsvpsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookmarks?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    preferences?: UserDisciplineUncheckedUpdateManyWithoutUserNestedInput
+    dismissedEvents?: UserDismissedEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type EventUpsertWithoutRsvpsInput = {
+    update: XOR<EventUpdateWithoutRsvpsInput, EventUncheckedUpdateWithoutRsvpsInput>
+    create: XOR<EventCreateWithoutRsvpsInput, EventUncheckedCreateWithoutRsvpsInput>
+    where?: EventWhereInput
+  }
+
+  export type EventUpdateToOneWithWhereWithoutRsvpsInput = {
+    where?: EventWhereInput
+    data: XOR<EventUpdateWithoutRsvpsInput, EventUncheckedUpdateWithoutRsvpsInput>
+  }
+
+  export type EventUpdateWithoutRsvpsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    attendees?: IntFieldUpdateOperationsInput | number
+    maxAttendees?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: EventUpdatetagsInput | string[]
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    hostName?: StringFieldUpdateOperationsInput | string
+    hostRole?: StringFieldUpdateOperationsInput | string
+    hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: UserDismissedEventUpdateManyWithoutEventNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutRsvpsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumEventTypeFieldUpdateOperationsInput | $Enums.EventType
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    price?: NullableStringFieldUpdateOperationsInput | string | null
+    attendees?: IntFieldUpdateOperationsInput | number
+    maxAttendees?: NullableIntFieldUpdateOperationsInput | number | null
+    tags?: EventUpdatetagsInput | string[]
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    hostName?: StringFieldUpdateOperationsInput | string
+    hostRole?: StringFieldUpdateOperationsInput | string
+    hostAvatar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationDeadline?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    dismissedBy?: UserDismissedEventUncheckedUpdateManyWithoutEventNestedInput
+  }
+
   export type BookmarkCreateManyUserInput = {
     id?: string
     articleId?: string | null
@@ -16858,6 +22312,18 @@ export namespace Prisma {
   export type UserDisciplineCreateManyUserInput = {
     id?: string
     disciplineId: string
+  }
+
+  export type EventRsvpCreateManyUserInput = {
+    id?: string
+    eventId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventCreateManyUserInput = {
+    id?: string
+    eventId: string
+    createdAt?: Date | string
   }
 
   export type BookmarkUpdateWithoutUserInput = {
@@ -16894,6 +22360,42 @@ export namespace Prisma {
   export type UserDisciplineUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     disciplineId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EventRsvpUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: EventUpdateOneRequiredWithoutRsvpsNestedInput
+  }
+
+  export type EventRsvpUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventRsvpUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: EventUpdateOneRequiredWithoutDismissedByNestedInput
+  }
+
+  export type UserDismissedEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ArticleDisciplineCreateManyDisciplineInput = {
@@ -16989,6 +22491,8 @@ export namespace Prisma {
     title: string
     url: string
     excerpt?: string | null
+    content?: string | null
+    imageUrl?: string | null
     publishedAt?: Date | string | null
   }
 
@@ -16997,6 +22501,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     disciplines?: ArticleDisciplineUpdateManyWithoutArticleNestedInput
     bookmarks?: BookmarkUpdateManyWithoutArticleNestedInput
@@ -17007,6 +22513,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     disciplines?: ArticleDisciplineUncheckedUpdateManyWithoutArticleNestedInput
     bookmarks?: BookmarkUncheckedUpdateManyWithoutArticleNestedInput
@@ -17017,6 +22525,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -17092,6 +22602,54 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     logoLetter?: NullableStringFieldUpdateOperationsInput | string | null
     logoColor?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EventRsvpCreateManyEventInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type UserDismissedEventCreateManyEventInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type EventRsvpUpdateWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRsvpsNestedInput
+  }
+
+  export type EventRsvpUncheckedUpdateWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EventRsvpUncheckedUpdateManyWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventUpdateWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDismissedEventsNestedInput
+  }
+
+  export type UserDismissedEventUncheckedUpdateWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDismissedEventUncheckedUpdateManyWithoutEventInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { Pricing } from '@prisma/client';
+import { Pricing } from '@/generated/prisma';
 
 const resourceFilterSchema = z.object({
   category: z.string().optional(),

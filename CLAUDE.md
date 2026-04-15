@@ -24,21 +24,24 @@ Design reference: design-ref/ folder (Figma Make export — Vite/React, referenc
 - Homepage (Feed) — article grid, sidebar filters, pagination, right rail
 - Resources page — category grid, resource cards, filters, recently added
 - Events page — calendar, event cards, modal, live stream player with chat
+- Article detail page — app/articles/[id]/page.tsx — hero image, related articles, bookmark/share, read time
+- Newsletter page — subscription form, past issues carousel, benefits grid, stats (static data)
+- Opinion page — opinion cards with author profiles, submit form (static data)
 - RSS feed ingestion (lib/rss.ts)
-- API routes: /api/articles, /api/resources, /api/categories, /api/events
+- API routes: /api/articles, /api/articles/[id], /api/resources, /api/categories, /api/events
+- Event scrapers (lib/scrapers/browse-ai.ts, lib/scrapers/events.ts) — Browse AI + HTML fallback
 
 ### 🔄 In Progress
 - Events page EventCard styling — needs to match Figma Make design-ref
 - Events page visual polish
+- Opinion + Newsletter pages use static mock data — need real data sources
 
 ### ❌ Not Started
 - Auth (Supabase Auth — login, onboarding, discipline selection)
-- Bookmarks page (requires auth)
-- Opinion page (social media scraping)
-- Newsletter page
-- Inngest scheduled jobs (auto RSS refresh, event scraping)
+- Bookmarks page (requires auth — bookmark state is local-only for now)
+- Inngest scheduled jobs (auto RSS refresh, event scraping — scrapers exist, need job wrappers)
+- Resend email integration for Newsletter subscriptions
 - Vercel deployment
-- Luma/Eventbrite event scraper
 
 ---
 
@@ -177,11 +180,15 @@ app/
   page.tsx                ← Feed homepage (client, filters + pagination)
   resources/page.tsx      ← Resource directory
   events/page.tsx         ← Events with calendar
-  bookmarks/page.tsx      ← (not built)
+  articles/[id]/page.tsx  ← Article detail (hero, related articles, share/bookmark)
+  newsletter/page.tsx     ← Newsletter subscribe form + past issues (static data)
+  opinion/page.tsx        ← Opinion cards + submit form (static data)
+  bookmarks/page.tsx      ← (not built — requires auth)
   login/page.tsx          ← (not built)
   onboarding/page.tsx     ← (not built)
   api/
     articles/route.ts     ← GET with discipline/search/date/sort filters
+    articles/[id]/route.ts← GET single article + related by discipline
     resources/route.ts    ← GET with category/pricing/search filters
     categories/route.ts   ← GET all categories with resource counts
     events/route.ts       ← GET with status/type/month filters
@@ -214,6 +221,9 @@ lib/
   prisma.ts               ← Prisma singleton
   rss.ts                  ← fetchAndParseFeeds() from 9 RSS sources
   utils.ts                ← cn() helper
+  scrapers/
+    browse-ai.ts          ← Browse AI API scraper for events
+    events.ts             ← Event scraping orchestrator (Browse AI + HTML fallback)
 
 types/index.ts            ← ALL shared interfaces (Article, Resource, Event, etc.)
 
@@ -281,6 +291,13 @@ import { PrismaClient, Pricing, EventType, EventStatus } from '../../generated/p
   RESEND_API_KEY=
   NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
+  # Event scrapers
+  BROWSE_AI_API_KEY=        ← from browse.ai/account (primary scraper — recommended)
+  BROWSE_AI_ROBOT_IDS=      ← comma-separated robot IDs from Browse AI dashboard
+  EVENTBRITE_SEARCH_URLS=   ← optional HTML scraper fallback
+  LUMA_URLS=                ← optional: comma-separated public lu.ma community page URLs
+  APIFY_DEBUG=true          ← logs first raw row from each source for field debugging
+
 ---
 
 ## Common Commands
@@ -325,9 +342,15 @@ Never import Button from card.tsx — it doesn't export Button.
 ---
 
 ## Next Steps (in order)
-1. Polish EventCard to match Figma Make design-ref
-2. Build Auth — Supabase login page + onboarding
-3. Build Bookmarks page
-4. Set up Inngest cron for RSS auto-refresh
-5. Set up Luma/Eventbrite event scraper
-6. Deploy to Vercel
+1. Polish EventCard to match Figma Make design-ref (use design-ref/src/app/pages/EventsPage.tsx as reference)
+2. Build Auth — Supabase login page + onboarding (discipline selection)
+3. Build Bookmarks page (requires auth — UI already has bookmark buttons, state is local-only)
+4. Wire up Resend for Newsletter subscriptions (form exists, just needs the API call)
+5. Set up Inngest cron for RSS auto-refresh (scrapers exist, need job wrappers)
+6. Connect Opinion + Newsletter to real data sources
+7. Deploy to Vercel
+
+## Figma Design File
+URL: https://www.figma.com/design/POhXAqOHAttxmbkLDf7xe8/DesignPulse-Homepage-Design
+Note: File must be in a Figma team project (not personal Drafts) for MCP access to work.
+The design-ref/ folder is a Figma Make export of the same file — use it as local reference.

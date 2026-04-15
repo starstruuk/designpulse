@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutGrid, Bookmark, User } from "lucide-react";
+import { Home, LayoutGrid, CalendarDays, MessageSquareQuote } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TABS = [
-  { label: "Home",      href: "/",           icon: Home       },
-  { label: "Resources", href: "/resources",  icon: LayoutGrid },
-  { label: "Bookmarks", href: "/bookmarks",  icon: Bookmark   },
-  { label: "Profile",   href: "/profile",    icon: User       },
+  { label: "Home",      href: "/",          icon: Home               },
+  { label: "Resources", href: "/resources", icon: LayoutGrid         },
+  { label: "Events",    href: "/events",    icon: CalendarDays       },
+  { label: "Opinion",   href: "/opinion",   icon: MessageSquareQuote },
 ];
 
 /**

@@ -146,6 +146,8 @@ exports.Prisma.ArticleScalarFieldEnum = {
   title: 'title',
   url: 'url',
   excerpt: 'excerpt',
+  content: 'content',
+  imageUrl: 'imageUrl',
   publishedAt: 'publishedAt',
   sourceId: 'sourceId'
 };
@@ -210,6 +212,45 @@ exports.Prisma.EventScalarFieldEnum = {
   hostName: 'hostName',
   hostRole: 'hostRole',
   hostAvatar: 'hostAvatar',
+  createdAt: 'createdAt',
+  registrationDeadline: 'registrationDeadline',
+  externalId: 'externalId'
+};
+
+exports.Prisma.UserDismissedEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  eventId: 'eventId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OpinionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  excerpt: 'excerpt',
+  snippet: 'snippet',
+  imageUrl: 'imageUrl',
+  publishedAt: 'publishedAt',
+  readTime: 'readTime',
+  tags: 'tags',
+  featured: 'featured',
+  sourceUrl: 'sourceUrl',
+  sourcePlatform: 'sourcePlatform',
+  subreddit: 'subreddit',
+  upvotes: 'upvotes',
+  authorName: 'authorName',
+  authorRole: 'authorRole',
+  authorAvatar: 'authorAvatar',
+  authorBio: 'authorBio',
+  authorHandle: 'authorHandle',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventRsvpScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  eventId: 'eventId',
   createdAt: 'createdAt'
 };
 
@@ -258,7 +299,10 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Bookmark: 'Bookmark',
   UserDiscipline: 'UserDiscipline',
-  Event: 'Event'
+  Event: 'Event',
+  UserDismissedEvent: 'UserDismissedEvent',
+  Opinion: 'Opinion',
+  EventRsvp: 'EventRsvp'
 };
 
 /**

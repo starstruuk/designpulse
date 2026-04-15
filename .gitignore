@@ -50,3 +50,12 @@ storybook-static
 
 # in .gitignore
 memory/
+
+# MCP config (may contain API keys)
+.mcp.json
+
+# Prisma generated client (rebuilt on deploy via postinstall)
+/generated/prisma/
+
+# Prisma engine temp lock files
+*.tmp*

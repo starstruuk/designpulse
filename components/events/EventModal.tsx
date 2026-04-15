@@ -169,7 +169,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, isRsvp, onRsvp, onClose,
             {isLive && <><Radio className="size-4" /> Join Live Stream</>}
             {isArchived && <><Play className="size-4" /> Watch Recording</>}
             {!isLive && !isArchived && isRsvp && <><CheckCircle2 className="size-4" /> You&apos;re Registered — Cancel</>}
-            {!isLive && !isArchived && !isRsvp && <><Ticket className="size-4" /> {event.isFree ? 'RSVP — Free' : `RSVP — $${event.price}`}</>}
+            {!isLive && !isArchived && !isRsvp && <><Ticket className="size-4" /> {event.isFree ? 'RSVP — Free' : event.price && !event.price.includes('null') ? `RSVP — ${event.price}` : 'RSVP'}</>}
           </Button>
         </div>
       </div>

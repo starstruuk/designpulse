@@ -1,5 +1,15 @@
 import Parser from 'rss-parser';
-import { Article } from '@/types/index';
+
+// Shape returned by the RSS parser before DB persistence
+export interface ParsedArticle {
+  title: string;
+  excerpt: string;
+  content: string | null;
+  imageUrl: string | null;
+  articleUrl: string;
+  sourceName: string;
+  publishedAt: Date;
+}
 
 interface RSSSource {
   name: string;
@@ -8,14 +18,14 @@ interface RSSSource {
 
 const SOURCES: RSSSource[] = [
   { name: "Nielsen Norman Group", url: "https://www.nngroup.com/feed/rss/" },
-  { name: "Smashing Magazine", url: "https://www.smashingmagazine.com/feed/" },
-  { name: "UX Design CC", url: "https://uxdesign.cc/feed" },
-  { name: "Figma Blog", url: "https://www.figma.com/blog/feed/atom.xml" },
-  { name: "A List Apart", url: "https://alistapart.com/main/feed" },
-  { name: "Codrops", url: "https://tympanus.net/codrops/feed/" },
-  { name: "Prototypr", url: "https://prototypr.io/feed/" },
-  { name: "UX Planet", url: "https://uxplanet.org/feed" },
-  { name: "UX Bootcamp", url: "https://bootcamp.uxdesign.cc/feed" },
+  { name: "Smashing Magazine",    url: "https://www.smashingmagazine.com/feed/" },
+  { name: "UX Design CC",         url: "https://uxdesign.cc/feed" },
+  { name: "Figma Blog",           url: "https://www.figma.com/blog/feed/atom.xml" },
+  { name: "A List Apart",         url: "https://alistapart.com/main/feed" },
+  { name: "Codrops",              url: "https://tympanus.net/codrops/feed/" },
+  { name: "Prototypr",            url: "https://prototypr.io/feed.xml" },
+  { name: "UX Planet",            url: "https://uxplanet.org/feed" },
+  // UX Bootcamp removed — feed returns invalid XML (@-character parse error)
 ];
 
 interface Enclosure {
@@ -38,14 +48,15 @@ interface RSSItem {
   'media:content'?: MediaContent;
 }
 
-export async function fetchAndParseFeeds(): Promise<Article[]> {
+export async function fetchAndParseFeeds(perSourceLimit = 40): Promise<ParsedArticle[]> {
   const parser = new Parser();
 
   const fetchPromises = SOURCES.map(source => parser.parseURL(source.url)
-    .then((feed: any) => feed.items.map((item: RSSItem) => ({
+    .then((feed: any) => feed.items.slice(0, perSourceLimit).map((item: RSSItem) => ({
       id: item.guid || item.link || crypto.randomUUID(),
       title: item.title || "",
       excerpt: item.contentSnippet ? item.contentSnippet.replace(/<[^>]+>/g, '') : "",
+      content: item.content || null,
       imageUrl: extractImageUrl(item),
       articleUrl: item.link || "",
       sourceName: source.name,
@@ -64,7 +75,7 @@ export async function fetchAndParseFeeds(): Promise<Article[]> {
 
   const results = await Promise.allSettled(fetchPromises);
 
-  const articles: Article[] = results.flatMap(result =>
+  const articles: ParsedArticle[] = results.flatMap(result =>
     result.status === 'fulfilled' ? result.value : []
   );
 

@@ -55,8 +55,10 @@ model User {
   createdAt DateTime @default(now())
 
   // relations
-  bookmarks   Bookmark[]
-  preferences UserDiscipline[]
+  bookmarks       Bookmark[]
+  preferences     UserDiscipline[]
+  rsvps           EventRsvp[]
+  dismissedEvents UserDismissedEvent[]
 }
 
 /// A subject area used to categorize articles (e.g. "ux", "graphic"). 
@@ -90,6 +92,8 @@ model Article {
   title       String
   url         String    @unique
   excerpt     String?
+  content     String?
+  imageUrl    String?
   publishedAt DateTime?
 
   // optional relation to Source; null when source not tracked separately
@@ -173,23 +177,82 @@ model UserDiscipline {
 
 /// A model for events.
 model Event {
-  id           String      @id @default(cuid())
-  title        String      @unique
-  description  String
-  type         EventType
-  status       EventStatus @default(UPCOMING)
-  date         String // store as "YYYY-MM-DD" string
-  time         String // e.g. "2:00 PM EST"
-  duration     String // e.g. "1 hour"
-  image        String?
-  isFree       Boolean     @default(true)
-  price        String?
-  attendees    Int         @default(0)
-  maxAttendees Int?
-  tags         String[]
-  url          String?
-  hostName     String
-  hostRole     String
-  hostAvatar   String?
-  createdAt    DateTime    @default(now())
+  id                   String      @id @default(cuid())
+  title                String      @unique
+  description          String
+  type                 EventType
+  status               EventStatus @default(UPCOMING)
+  date                 String // store as "YYYY-MM-DD" string
+  time                 String // e.g. "2:00 PM EST"
+  duration             String // e.g. "1 hour"
+  image                String?
+  isFree               Boolean     @default(true)
+  price                String?
+  attendees            Int         @default(0)
+  maxAttendees         Int?
+  tags                 String[]
+  url                  String?
+  hostName             String
+  hostRole             String
+  hostAvatar           String?
+  createdAt            DateTime    @default(now())
+  /// Last date registrations/ticket sales are open. YYYY-MM-DD.
+  /// Null = no explicit deadline (registration closes on event day).
+  registrationDeadline String?
+
+  /// Unique ID from an external source, e.g. "eventbrite:12345" or "luma:evt_abc".
+  /// Null for manually seeded events.
+  externalId String? @unique
+
+  rsvps       EventRsvp[]
+  dismissedBy UserDismissedEvent[]
+}
+
+/// Tracks which events a user has dismissed (discarded) from their feed.
+model UserDismissedEvent {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
+}
+
+/// Aggregated opinion pieces from Reddit and RSS feeds (Substack, Medium, blogs).
+/// sourcePlatform is one of: 'reddit' | 'substack' | 'medium' | 'manual'
+model Opinion {
+  id             String   @id @default(cuid())
+  title          String
+  excerpt        String
+  snippet        String?  @db.Text
+  imageUrl       String?
+  publishedAt    DateTime
+  readTime       String?
+  tags           String[]
+  featured       Boolean  @default(false)
+  sourceUrl      String   @unique
+  sourcePlatform String
+  subreddit      String?
+  upvotes        Int?
+  authorName     String
+  authorRole     String?
+  authorAvatar   String?
+  authorBio      String?
+  authorHandle   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+/// Tracks which events a user has RSVP'd to.
+model EventRsvp {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
 }

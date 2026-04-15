@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  LayoutGrid,
   Cpu,
   Pen,
   Eye,
@@ -21,15 +20,18 @@ import { cn } from "@/lib/utils";
 // ─── Types ───────────────────────────────────────────────────────
 export interface SidebarFilters {
   disciplines: string[];
-  sortBy: "newest" | "mostRead" | "topRated";
+  sortBy: "newest" | "oldest";
   fromDate: string;
   toDate: string;
-  tags: string[];
 }
 
 interface SidebarProps {
   filters: SidebarFilters;
   onChange: (filters: SidebarFilters) => void;
+  /** Called after Apply or Clear — lets parent close mobile drawer */
+  onApply?: () => void;
+  /** When true, renders inline without fixed positioning (used in mobile drawer) */
+  mobile?: boolean;
 }
 
 // ─── Data ────────────────────────────────────────────────────────
@@ -56,19 +58,16 @@ const DISCIPLINE_COLORS: Record<string, string> = {
 };
 
 const SORT_OPTIONS = [
-  { label: "Newest First", value: "newest"   },
-  { label: "Most Read",    value: "mostRead" },
-  { label: "Top Rated",    value: "topRated" },
+  { label: "Newest First", value: "newest" },
+  { label: "Oldest First", value: "oldest" },
 ] as const;
 
-const TAGS = [
-  "Spatial Design", "visionOS", "Apple", "AI Tools", "Workflow",
-  "Automation", "Swiss Design", "Typography", "Grid Systems",
-  "Color Theory", "Branding", "Visual Hierarchy", "Animation",
-  "Easing Curves", "Transitions", "Haptics", "Gestures", "Mobile",
-  "Research", "Empathy Maps", "User Testing", "Dark Mode",
-  "Design Systems", "Accessibility",
-];
+const DEFAULT_FILTERS: SidebarFilters = {
+  disciplines: [],
+  sortBy: "newest",
+  fromDate: "",
+  toDate: "",
+};
 
 // ─── Collapsible Section ─────────────────────────────────────────
 function Section({
@@ -102,53 +101,53 @@ function Section({
 
 // ─── Main Component ──────────────────────────────────────────────
 /**
- * Left sidebar with discipline filters, date range, sort, and tags.
- * Hidden below lg breakpoint.
+ * Left sidebar with discipline filters, date range, and sort.
+ * Buffers all changes locally — only calls onChange when Apply is clicked.
+ * Hidden below lg breakpoint (unless mobile prop is set).
  */
-export default function Sidebar({ filters, onChange }: SidebarProps) {
+export default function Sidebar({ filters, onChange, onApply, mobile = false }: SidebarProps) {
+  // Buffer pending changes — applied only on Apply click
+  const [pending, setPending] = React.useState<SidebarFilters>(filters);
+
+  // Sync pending when parent filters are cleared externally (e.g. chip removal)
+  React.useEffect(() => {
+    setPending(filters);
+  }, [filters]);
 
   function toggleDiscipline(slug: string) {
-    const current = filters.disciplines;
-    const next = current.includes(slug)
-      ? current.filter((d) => d !== slug)
-      : [...current, slug];
-    onChange({ ...filters, disciplines: next });
-  }
-
-  function toggleTag(tag: string) {
-    const current = filters.tags;
-    const next = current.includes(tag)
-      ? current.filter((t) => t !== tag)
-      : [...current, tag];
-    onChange({ ...filters, tags: next });
+    setPending((prev) => ({
+      ...prev,
+      disciplines: prev.disciplines.includes(slug)
+        ? prev.disciplines.filter((d) => d !== slug)
+        : [...prev.disciplines, slug],
+    }));
   }
 
   function clearAll() {
-    onChange({
-      disciplines: [],
-      sortBy: "newest",
-      fromDate: "",
-      toDate: "",
-      tags: [],
-    });
+    setPending(DEFAULT_FILTERS);
+    onChange(DEFAULT_FILTERS);
+    onApply?.();
+  }
+
+  function handleApply() {
+    onChange(pending);
+    onApply?.();
   }
 
   const hasActiveFilters =
-    filters.disciplines.length > 0 ||
-    filters.tags.length > 0 ||
-    filters.fromDate ||
-    filters.toDate;
+    pending.disciplines.length > 0 ||
+    !!pending.fromDate ||
+    !!pending.toDate ||
+    pending.sortBy !== "newest";
 
   return (
     <aside className={cn(
-      "hidden lg:flex flex-col",
-      "fixed left-0 top-16 w-60 h-[calc(100vh-4rem)]",
-      "overflow-y-auto overscroll-contain",
-      "border-r border-border bg-card",
-      "z-40"
+      "flex flex-col",
+      !mobile && "hidden lg:flex fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] border-r border-border bg-card z-40",
+      mobile && "w-full h-full bg-card",
     )}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0">
         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <SlidersHorizontal className="size-4 text-[#E94560]" />
           Filter Articles
@@ -164,48 +163,28 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
       </div>
 
       {/* Scrollable content */}
-      <div className="flex flex-col gap-5 px-4 py-4 flex-1">
+      <div className="flex flex-col gap-5 px-4 py-4 flex-1 overflow-y-auto overscroll-contain">
 
         {/* ── Categories ── */}
         <Section title="Categories">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {DISCIPLINES.map(({ label, slug, icon: Icon }) => {
-              const isActive = filters.disciplines.includes(slug);
-              const color = DISCIPLINE_COLORS[slug];
+              const isActive = pending.disciplines.includes(slug);
+              const color    = DISCIPLINE_COLORS[slug];
               return (
                 <button
                   key={slug}
                   onClick={() => toggleDiscipline(slug)}
                   className={cn(
-                    "flex items-center gap-3 px-2 py-1.5 rounded-lg text-sm transition-all",
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all border",
                     isActive
-                      ? "bg-[#E94560]/10 text-[#E94560]"
-                      : "text-foreground hover:bg-accent"
+                      ? "text-white border-transparent"
+                      : "bg-muted/50 text-muted-foreground border-border hover:text-foreground hover:border-muted-foreground/60"
                   )}
+                  style={isActive ? { backgroundColor: color, borderColor: color } : {}}
                 >
-                  {/* Checkbox */}
-                  <span className={cn(
-                    "w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors",
-                    isActive
-                      ? "border-[#E94560] bg-[#E94560]"
-                      : "border-muted-foreground"
-                  )}>
-                    {isActive && (
-                      <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </span>
-                  {/* Color dot */}
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: color }}
-                  />
-                  <Icon
-                    className="size-4 flex-shrink-0"
-                    style={{ color }}
-                  />
-                  <span className="font-medium">{label}</span>
+                  <Icon className="size-3 shrink-0" />
+                  {label}
                 </button>
               );
             })}
@@ -221,10 +200,8 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
               <label className="text-xs text-muted-foreground">From</label>
               <Input
                 type="date"
-                value={filters.fromDate}
-                onChange={(e) =>
-                  onChange({ ...filters, fromDate: e.target.value })
-                }
+                value={pending.fromDate}
+                onChange={(e) => setPending((prev) => ({ ...prev, fromDate: e.target.value }))}
                 className="h-8 text-xs"
               />
             </div>
@@ -232,10 +209,8 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
               <label className="text-xs text-muted-foreground">To</label>
               <Input
                 type="date"
-                value={filters.toDate}
-                onChange={(e) =>
-                  onChange({ ...filters, toDate: e.target.value })
-                }
+                value={pending.toDate}
+                onChange={(e) => setPending((prev) => ({ ...prev, toDate: e.target.value }))}
                 className="h-8 text-xs"
               />
             </div>
@@ -248,11 +223,11 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
         <Section title="Sort By">
           <div className="flex flex-col gap-1.5">
             {SORT_OPTIONS.map(({ label, value }) => {
-              const isActive = filters.sortBy === value;
+              const isActive = pending.sortBy === value;
               return (
                 <button
                   key={value}
-                  onClick={() => onChange({ ...filters, sortBy: value })}
+                  onClick={() => setPending((prev) => ({ ...prev, sortBy: value }))}
                   className={cn(
                     "flex items-center gap-3 px-2 py-1.5 rounded-lg text-sm transition-colors text-left",
                     isActive
@@ -261,12 +236,10 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
                   )}
                 >
                   <span className={cn(
-                    "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
+                    "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0",
                     isActive ? "border-[#E94560]" : "border-muted-foreground"
                   )}>
-                    {isActive && (
-                      <span className="w-2 h-2 rounded-full bg-[#E94560]" />
-                    )}
+                    {isActive && <span className="w-2 h-2 rounded-full bg-[#E94560]" />}
                   </span>
                   {label}
                 </button>
@@ -275,30 +248,16 @@ export default function Sidebar({ filters, onChange }: SidebarProps) {
           </div>
         </Section>
 
-        <div className="border-t border-border" />
+      </div>
 
-        {/* ── Tags ── */}
-        <Section title="Tags" defaultOpen={false}>
-          <div className="flex flex-wrap gap-1.5">
-            {TAGS.map((tag) => {
-              const isActive = filters.tags.includes(tag);
-              return (
-                <button
-                  key={tag}
-                  onClick={() => toggleTag(tag)}
-                  className={cn(
-                    "text-xs rounded-full border px-2 py-0.5 transition-colors",
-                    isActive
-                      ? "bg-[#E94560] text-white border-[#E94560]"
-                      : "border-border text-muted-foreground hover:border-[#E94560] hover:text-[#E94560]"
-                  )}
-                >
-                  {tag}
-                </button>
-              );
-            })}
-          </div>
-        </Section>
+      {/* Apply — sticky footer */}
+      <div className="p-3 border-t border-border bg-card shrink-0">
+        <button
+          onClick={handleApply}
+          className="w-full py-2 rounded-lg bg-[#E94560] text-white text-sm font-medium hover:bg-[#E94560]/90 transition-colors"
+        >
+          Apply Filters
+        </button>
       </div>
     </aside>
   );
