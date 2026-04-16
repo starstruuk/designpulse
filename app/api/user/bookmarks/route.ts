@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-/** Creates an authenticated Supabase client from the request cookies. */
 async function getSupabaseUser() {
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -24,8 +23,7 @@ async function getSupabaseUser() {
 
 /**
  * GET /api/user/bookmarks
- * Returns the authenticated user's bookmarked articles and resources.
- * If the user has not yet completed onboarding (no DB row), returns empty arrays.
+ * Returns the authenticated user's bookmarked articles, resources, and opinions.
  */
 export async function GET() {
   const { data: { user } } = await getSupabaseUser();
@@ -38,21 +36,17 @@ export async function GET() {
     include: {
       bookmarks: {
         include: {
-          article: {
-            include: { source: true },
-          },
-          resource: {
-            include: { category: true },
-          },
+          article:  { include: { source: true } },
+          resource: { include: { category: true } },
+          opinion:  true,
         },
         orderBy: { createdAt: 'desc' },
       },
     },
   });
 
-  // User hasn't completed onboarding yet — return empty state
   if (!dbUser) {
-    return NextResponse.json({ articles: [], resources: [] });
+    return NextResponse.json({ articles: [], resources: [], opinions: [] });
   }
 
   const articles = dbUser.bookmarks
@@ -86,13 +80,29 @@ export async function GET() {
       };
     });
 
-  return NextResponse.json({ articles, resources });
+  const opinions = dbUser.bookmarks
+    .filter((b) => b.opinion !== null)
+    .map((b) => {
+      const o = b.opinion!;
+      return {
+        id:            o.id,
+        title:         o.title,
+        excerpt:       o.excerpt,
+        imageUrl:      o.imageUrl ?? null,
+        publishedAt:   o.publishedAt,
+        authorName:    o.authorName,
+        sourceUrl:     o.sourceUrl,
+        sourcePlatform: o.sourcePlatform,
+      };
+    });
+
+  return NextResponse.json({ articles, resources, opinions });
 }
 
 /**
  * POST /api/user/bookmarks
- * Toggles a bookmark for an article or resource.
- * Body: { articleId?: string, resourceId?: string } — exactly one must be present.
+ * Toggles a bookmark for an article, resource, or opinion.
+ * Body: exactly one of { articleId, resourceId, opinionId }.
  */
 export async function POST(req: NextRequest) {
   const { data: { user } } = await getSupabaseUser();
@@ -100,48 +110,47 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const body = await req.json() as { articleId?: string; resourceId?: string };
-  const { articleId, resourceId } = body;
+  const body = await req.json() as { articleId?: string; resourceId?: string; opinionId?: string };
+  const { articleId, resourceId, opinionId } = body;
 
-  // Exactly one of articleId or resourceId must be provided
   const hasArticle  = typeof articleId  === 'string' && articleId.length  > 0;
   const hasResource = typeof resourceId === 'string' && resourceId.length > 0;
+  const hasOpinion  = typeof opinionId  === 'string' && opinionId.length  > 0;
+  const count = [hasArticle, hasResource, hasOpinion].filter(Boolean).length;
 
-  if ((!hasArticle && !hasResource) || (hasArticle && hasResource)) {
+  if (count !== 1) {
     return NextResponse.json(
-      { error: 'Provide exactly one of articleId or resourceId' },
+      { error: 'Provide exactly one of articleId, resourceId, or opinionId' },
       { status: 400 }
     );
   }
 
-  // Upsert user row so we always have a DB record
   const dbUser = await prisma.user.upsert({
     where:  { email: user.email },
     create: { email: user.email, name: user.user_metadata?.name ?? null },
     update: {},
   });
 
-  // Check for existing bookmark
   const existing = await prisma.bookmark.findFirst({
     where: {
       userId:     dbUser.id,
       articleId:  articleId  ?? null,
       resourceId: resourceId ?? null,
+      opinionId:  opinionId  ?? null,
     },
   });
 
   if (existing) {
-    // Toggle off — delete the bookmark
     await prisma.bookmark.delete({ where: { id: existing.id } });
     return NextResponse.json({ bookmarked: false });
   }
 
-  // Toggle on — create the bookmark
   await prisma.bookmark.create({
     data: {
       userId:     dbUser.id,
       articleId:  articleId  ?? null,
       resourceId: resourceId ?? null,
+      opinionId:  opinionId  ?? null,
     },
   });
 

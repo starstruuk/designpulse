@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import ResourceCard from '@/components/resource/ResourceCard';
 import CategoryGrid from '@/components/resource/CategoryGrid';
 import RecentlyAdded from '@/components/resource/RecentlyAdded';
@@ -417,6 +418,9 @@ export default function ResourcesPage() {
             </div>
           )}
         </aside>
+      </div>
+      <div className="xl:mr-70">
+        <Footer />
       </div>
     </div>
   );

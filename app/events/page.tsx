@@ -6,6 +6,7 @@ import {
   Trash2, RotateCcw, CheckSquare2, Square,
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import EventCard from '@/components/events/EventCard';
 import EventCalendar from '@/components/events/EventCalendar';
 import EventModal from '@/components/events/EventModal';
@@ -13,6 +14,7 @@ import LiveStreamPlayer from '@/components/events/LiveStreamPlayer';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import Pagination from '@/components/shared/Pagination';
 import { Event } from '@/types';
 import { browserClient } from '@/lib/supabase/client';
 
@@ -53,6 +55,8 @@ export default function EventsPage() {
   const [filtersOpen, setFiltersOpen]     = useState(false);
   const [loading, setLoading]             = useState(true);
   const [isAuthed, setIsAuthed]           = useState(false);
+  const [eventPage, setEventPage]         = useState(1);
+  const EVENTS_PER_PAGE = 10;
   // ── Selection mode ─────────────────────────────────────────────
   const [selectMode, setSelectMode]       = useState(false);
   const [selectedIds, setSelectedIds]     = useState<Set<string>>(new Set());
@@ -179,6 +183,12 @@ export default function EventsPage() {
 
   const hasActiveFilters = typeFilters.length > 0 || fromDate || toDate || sortBy !== 'date-asc' || pricingFilter !== 'all';
 
+  // Reset to page 1 whenever filters/tabs change
+  useEffect(() => { setEventPage(1); }, [activeTab, pricingFilter, typeFilters, fromDate, toDate, sortBy, view]);
+
+  const eventTotalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+  const pagedEvents = filteredEvents.slice((eventPage - 1) * EVENTS_PER_PAGE, eventPage * EVENTS_PER_PAGE);
+
   function clearFilters() {
     setTypeFilters([]);
     setFromDate('');
@@ -282,8 +292,8 @@ export default function EventsPage() {
         {/* ── Two column layout ── */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
 
-          {/* ── Left column: Calendar + Filters ── */}
-          <div className="lg:w-[340px] shrink-0 flex flex-col gap-4">
+          {/* ── Left column: Calendar + Filters — sticky as a unit ── */}
+          <div className="lg:w-[340px] shrink-0 flex flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
             <EventCalendar
               events={events}
               currentMonth={currentMonth}
@@ -647,7 +657,7 @@ export default function EventsPage() {
                   )}
                 </div>
               ) : (
-                filteredEvents.map((event) => {
+                pagedEvents.map((event) => {
                   const isChecked = selectedIds.has(event.id);
                   return (
                     <div key={event.id} className="relative flex items-start gap-3">
@@ -698,9 +708,23 @@ export default function EventsPage() {
                 })
               )}
             </div>
+
+            {/* Pagination */}
+            {!loading && eventTotalPages > 1 && (
+              <Pagination
+                currentPage={eventPage}
+                totalPages={eventTotalPages}
+                onPageChange={(p) => {
+                  setEventPage(p);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
           </div>
         </div>
       </main>
+
+      <Footer />
 
       {/* ── Event Detail Modal ── */}
       {selectedEvent && (

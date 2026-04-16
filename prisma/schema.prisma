@@ -158,6 +158,8 @@ model Bookmark {
   articleId  String?
   resource   Resource? @relation(fields: [resourceId], references: [id])
   resourceId String?
+  opinion    Opinion?  @relation(fields: [opinionId], references: [id])
+  opinionId  String?
   createdAt  DateTime  @default(now())
 
   @@unique([userId, articleId, resourceId])
@@ -243,6 +245,15 @@ model Opinion {
   authorHandle   String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  bookmarks      Bookmark[]
+}
+
+/// Newsletter subscribers collected via the footer widget.
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  subscribedAt DateTime @default(now())
 }
 
 /// Tracks which events a user has RSVP'd to.

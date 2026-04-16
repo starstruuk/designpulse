@@ -143,7 +143,7 @@ export default function Sidebar({ filters, onChange, onApply, mobile = false }: 
   return (
     <aside className={cn(
       "flex flex-col",
-      !mobile && "hidden lg:flex fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] border-r border-border bg-card z-40",
+      !mobile && "hidden lg:flex fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] border-r border-border bg-card z-50",
       mobile && "w-full h-full bg-card",
     )}>
       {/* Header */}

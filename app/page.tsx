@@ -12,6 +12,7 @@ import Pagination from "@/components/shared/Pagination";
 import { Article } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/layout/Footer";
 import { browserClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
@@ -413,10 +414,15 @@ export default function Home() {
         <RightRail />
       </div>
 
+      {/* Footer — constrained to the feed content column */}
+      <div className="lg:ml-60 xl:mr-70">
+        <Footer />
+      </div>
+
       {/* Mobile filter overlay backdrop */}
       {mobileFilterOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-55 bg-black/60 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileFilterOpen(false)}
         />
       )}
@@ -424,7 +430,7 @@ export default function Home() {
       {/* Mobile filter drawer — slides in from left */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 h-full w-[280px] flex flex-col lg:hidden",
+          "fixed top-0 left-0 z-60 h-full w-70 flex flex-col lg:hidden",
           "bg-white dark:bg-[#16213E] border-r border-border shadow-xl",
           "transition-transform duration-300",
           mobileFilterOpen ? "translate-x-0" : "-translate-x-full"
@@ -445,7 +451,7 @@ export default function Home() {
         </div>
 
         {/* Sidebar content reused — Apply/Clear handled inside Sidebar */}
-        <div className="flex-1 overflow-y-auto flex flex-col">
+        <div className="flex-1 overflow-y-auto flex flex-col pb-16">
           <Sidebar
             filters={filters}
             onChange={handleFiltersChange}

@@ -5,10 +5,12 @@ import Image from 'next/image';
 import {
   MessageSquareQuote, PenLine, X, Send, ExternalLink, Clock,
   ChevronRight, Loader2, Sparkles, CheckCircle2, AlertCircle, Globe,
-  ArrowUpRight,
+  ArrowUpRight, Bookmark, BookmarkCheck,
 } from 'lucide-react';
+import { browserClient } from '@/lib/supabase/client';
 import type { Opinion } from '@/types';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import { cn } from '@/lib/utils';
 
 /* ─── Types ──────────────────────────────────────────────────── */
@@ -242,7 +244,7 @@ const socialPlatforms = [
 
 /* ─── Featured Opinion Card ──────────────────────────────────── */
 
-function FeaturedOpinionCard({ opinion }: { opinion: OpinionData }) {
+function FeaturedOpinionCard({ opinion, isBookmarked, onBookmark }: { opinion: OpinionData; isBookmarked: boolean; onBookmark: () => void }) {
   return (
     <a
       href={opinion.sourceUrl ?? '#'}
@@ -312,7 +314,7 @@ function FeaturedOpinionCard({ opinion }: { opinion: OpinionData }) {
         {/* Snippet */}
         <p className="text-sm leading-relaxed text-muted-foreground mb-4">{opinion.snippet}</p>
 
-        {/* Tags + read time */}
+        {/* Tags + read time + bookmark */}
         <div className="flex items-center gap-2 flex-wrap">
           {opinion.tags.map((tag) => (
             <span key={tag} className="px-2.5 py-1 rounded-full text-[11px] bg-accent text-muted-foreground">
@@ -323,6 +325,18 @@ function FeaturedOpinionCard({ opinion }: { opinion: OpinionData }) {
             <Clock className="size-3" />
             {opinion.readTime}
           </span>
+          {typeof opinion.id === 'string' && (
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookmark(); }}
+              className={cn(
+                'p-1.5 rounded-lg transition-colors',
+                isBookmarked ? 'text-[#E94560]' : 'text-muted-foreground hover:text-[#E94560]'
+              )}
+              aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
+            >
+              {isBookmarked ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}
+            </button>
+          )}
         </div>
       </div>
     </a>
@@ -331,7 +345,7 @@ function FeaturedOpinionCard({ opinion }: { opinion: OpinionData }) {
 
 /* ─── Opinion Card ───────────────────────────────────────────── */
 
-function OpinionCard({ opinion }: { opinion: OpinionData }) {
+function OpinionCard({ opinion, isBookmarked, onBookmark }: { opinion: OpinionData; isBookmarked: boolean; onBookmark: () => void }) {
   return (
     <a
       href={opinion.sourceUrl ?? '#'}
@@ -402,6 +416,18 @@ function OpinionCard({ opinion }: { opinion: OpinionData }) {
         <div className="pt-3 flex items-center gap-1 text-xs transition-colors border-t border-border text-muted-foreground group-hover:text-[#E94560]">
           Read full piece
           <ChevronRight className="size-3.5" />
+          {typeof opinion.id === 'string' && (
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookmark(); }}
+              className={cn(
+                'ml-auto p-1 rounded-lg transition-colors',
+                isBookmarked ? 'text-[#E94560]' : 'text-muted-foreground hover:text-[#E94560]'
+              )}
+              aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
+            >
+              {isBookmarked ? <BookmarkCheck className="size-3.5" /> : <Bookmark className="size-3.5" />}
+            </button>
+          )}
         </div>
       </div>
     </a>
@@ -838,6 +864,37 @@ export default function OpinionPage() {
   const [redditPosts, setRedditPosts] = useState<OpinionData[]>([]);
   const [loading, setLoading]         = useState(true);
 
+  // Bookmarks
+  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    browserClient.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      fetch('/api/user/bookmarks')
+        .then((r) => r.json())
+        .then((data: { opinions?: { id: string }[] }) => {
+          setBookmarkedIds(new Set((data.opinions ?? []).map((o) => o.id)));
+        })
+        .catch(() => {});
+    });
+  }, []);
+
+  async function handleBookmark(opinionId: string) {
+    const isBookmarked = bookmarkedIds.has(opinionId);
+    setBookmarkedIds((prev) => {
+      const next = new Set(prev);
+      isBookmarked ? next.delete(opinionId) : next.add(opinionId);
+      return next;
+    });
+    const { data: { user } } = await browserClient.auth.getUser();
+    if (!user) { setBookmarkedIds((prev) => { const next = new Set(prev); isBookmarked ? next.add(opinionId) : next.delete(opinionId); return next; }); return; }
+    await fetch('/api/user/bookmarks', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ opinionId }),
+    });
+  }
+
   useEffect(() => {
     setLoading(true);
     async function loadOpinions() {
@@ -968,7 +1025,7 @@ export default function OpinionPage() {
       </div>
 
       {/* Featured */}
-      {featured && <FeaturedOpinionCard opinion={featured} />}
+      {featured && <FeaturedOpinionCard opinion={featured} isBookmarked={typeof featured.id === 'string' && bookmarkedIds.has(featured.id)} onBookmark={() => typeof featured.id === 'string' && handleBookmark(featured.id)} />}
 
       {/* More opinions */}
       {rest.length > 0 && (
@@ -979,7 +1036,7 @@ export default function OpinionPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {rest.map((opinion) => (
-              <OpinionCard key={opinion.id} opinion={opinion} />
+              <OpinionCard key={opinion.id} opinion={opinion} isBookmarked={typeof opinion.id === 'string' && bookmarkedIds.has(opinion.id)} onBookmark={() => typeof opinion.id === 'string' && handleBookmark(opinion.id)} />
             ))}
           </div>
         </div>
@@ -1010,6 +1067,7 @@ export default function OpinionPage() {
       {/* Modals */}
       {earlyAccessOpen && <EarlyAccessModal onClose={() => setEarlyAccessOpen(false)} />}
     </main>
+    <Footer />
     </>
   );
 }

@@ -65,7 +65,7 @@ export default function EventCalendar({
   const nextMonth = () => onMonthChange(new Date(year, month + 1));
 
   return (
-    <div className="rounded-xl border bg-card p-5 sticky top-20">
+    <div className="rounded-xl border bg-card p-5">
       {/* Month navigation */}
       <div className="flex items-center justify-between mb-4">
         <button
